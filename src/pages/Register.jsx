@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { registerRider } from "../services/riderService";
+import { generateReferralCode } from "../utils/referral";
 
 function Register() {
   const [formData, setFormData] = useState({
@@ -27,20 +28,35 @@ const handleSubmit = async (event) => {
     city: formData.city,
     vehicle_type: formData.vehicleType,
     ev_openness: formData.evInterest,
+    referral_code: generateReferralCode(),
     referred_by: formData.referralCode,
   };
 
-  const { data, error } =
-    await registerRider(rider);
+  const { data, error } = await registerRider(rider);
 
   if (error) {
     console.error(error);
-    alert("Registration failed");
+
+    if (error.code === "23505") {
+      alert("Phone number already registered");
+    } else {
+      alert("Registration failed");
+    }
+
     return;
   }
 
   console.log(data);
   alert("Registration successful!");
+
+  setFormData({
+    name: "",
+    phone: "",
+    city: "",
+    vehicleType: "",
+    evInterest: "",
+    referralCode: "",
+  });
 };
 
   return (
