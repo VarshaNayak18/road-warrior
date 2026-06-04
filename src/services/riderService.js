@@ -49,3 +49,14 @@ export async function updateReferrer(referrer) {
 
   return { data, error };
 }
+
+export async function getLeaderboard() {
+  const { data, error } = await supabase
+    .from("riders")
+    .select("*")
+    .order("points", {
+      ascending: false,
+    });
+
+  return { data, error };
+}
