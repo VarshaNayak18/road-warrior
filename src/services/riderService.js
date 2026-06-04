@@ -60,3 +60,11 @@ export async function getLeaderboard() {
 
   return { data, error };
 }
+
+export async function getAnalytics() {
+  const { data, error } = await supabase
+    .from("riders")
+    .select("*");
+
+  return { data, error };
+}
