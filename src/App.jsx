@@ -1,11 +1,14 @@
+import { useEffect } from "react";
 import Register from "./pages/Register";
+import { testConnection } from "./services/riderService";
 
 function App() {
-  return (
-    <div>
-      <Register />
-    </div>
-  );
+
+  useEffect(() => {
+    testConnection();
+  }, []);
+
+  return <Register />;
 }
 
 export default App;

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { registerRider } from "../services/riderService";
 
 function Register() {
   const [formData, setFormData] = useState({
@@ -17,11 +18,30 @@ function Register() {
     });
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
+const handleSubmit = async (event) => {
+  event.preventDefault();
 
-    console.log(formData);
+  const rider = {
+    name: formData.name,
+    phone: formData.phone,
+    city: formData.city,
+    vehicle_type: formData.vehicleType,
+    ev_openness: formData.evInterest,
+    referred_by: formData.referralCode,
   };
+
+  const { data, error } =
+    await registerRider(rider);
+
+  if (error) {
+    console.error(error);
+    alert("Registration failed");
+    return;
+  }
+
+  console.log(data);
+  alert("Registration successful!");
+};
 
   return (
     <div style={{ padding: "20px" }}>
