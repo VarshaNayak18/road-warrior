@@ -8,11 +8,19 @@ import {
 
 function Dashboard() {
   const [analytics, setAnalytics] = useState({
-    totalRiders: 0,
-    evInterested: 0,
-    totalReferrals: 0,
-    topReferrer: "None",
-  });
+  totalRiders: 0,
+  evInterested: 0,
+  totalReferrals: 0,
+  topReferrer: "None",
+
+  evLeads: 0,
+  uninsured: 0,
+
+  vehicleBreakdown: {},
+  cityBreakdown: {},
+
+  topReferrers: [],
+});
 
   const [riders, setRiders] = useState([]);
 
@@ -39,23 +47,59 @@ function Dashboard() {
       (rider) => rider.ev_openness === "Yes"
     ).length;
 
+    const evLeads = data.filter(
+      (rider) => rider.ev_openness === "Yes"
+    ).length;
+
+    const uninsured = data.filter(
+      (rider) =>
+        rider.accidental_insurance === "No" ||
+      rider.health_insurance === "No"
+    ).length;
+
+    const vehicleBreakdown = {};
+    data.forEach((rider) => {
+      const vehicle =
+      rider.vehicle_type || "Unknown";
+      vehicleBreakdown[vehicle] =
+      (vehicleBreakdown[vehicle] || 0) + 1;
+    });
+
+    const cityBreakdown = {};
+    data.forEach((rider) => {
+      const city =
+      rider.city
+      ?.trim()
+      .toLowerCase() || "unknown";
+      cityBreakdown[city] =
+      (cityBreakdown[city] || 0) + 1;
+    });
+
     const totalReferrals = data.reduce(
       (sum, rider) => sum + (rider.referral_count || 0),
       0
     );
 
-    const topReferrer =
-      [...data].sort(
-        (a, b) =>
-          (b.referral_count || 0) -
-          (a.referral_count || 0)
-      )[0];
+    const topReferrers = [...data]
+    .sort(
+    (a, b) =>
+      (b.referral_count || 0) -
+      (a.referral_count || 0)
+    )
+    .slice(0, 5);
 
     setAnalytics({
       totalRiders,
       evInterested,
       totalReferrals,
-      topReferrer: topReferrer?.name || "None",
+      
+      evLeads,
+      uninsured,
+      
+      vehicleBreakdown,
+      cityBreakdown,
+      
+      topReferrers,
     });
   }
 
@@ -108,9 +152,14 @@ function Dashboard() {
         </div>
 
         <div className="card">
-          <h2>Top Referrer</h2>
-          <p>{analytics.topReferrer}</p>
+          <h2>EV Hot Leads</h2>
+          <p>{analytics.evLeads}</p>
         </div>
+
+        <div className="card">
+          <h2>Insurance Leads</h2>
+          <p>{analytics.uninsured}</p>
+          </div>
       </div>
 
       <h2 style={{ marginTop: "30px" }}>
@@ -130,33 +179,53 @@ function Dashboard() {
       />
 
       <select
-      value={selectedCity}
-      onChange={(e) => setSelectedCity(e.target.value)}
-      >
-        <option value="All">All Cities</option>
-        <option value="Bengaluru">Bengaluru</option>
-        <option value="Mumbai">Mumbai</option>
-        <option value="Delhi">Delhi</option>
-      </select>
+  value={selectedCity}
+  onChange={(e) => setSelectedCity(e.target.value)}
+>
+  {cities.map((city) => (
+    <option key={city} value={city}>
+      {city}
+    </option>
+  ))}
+</select>
 
-      <select
-      value={selectedCity}
-      onChange={(e) => setSelectedCity(e.target.value)}
-      style={{
-        padding: "10px",
-        marginLeft: "10px",
-        marginBottom: "20px",
-      }}
-      >
-        
-        {cities.map((city) => (
-          <option key={city} value={city}>
-            {city}
-          </option>
-        ))}
-      </select>
+      <h2 style={{ marginTop: "30px" }}>
+  🚗 Vehicle Breakdown
+</h2>
 
+{Object.entries(
+  analytics.vehicleBreakdown || {}
+).map(([vehicle, count]) => (
+  <p key={vehicle}>
+    {vehicle}: {count}
+  </p>
+))}
 
+<h2 style={{ marginTop: "30px" }}>
+  🏙️ City Breakdown
+</h2>
+
+{Object.entries(
+  analytics.cityBreakdown || {}
+).map(([city, count]) => (
+  <p key={city}>
+    {city}: {count}
+  </p>
+))}
+
+<h2 style={{ marginTop: "30px" }}>
+  🏆 Top Referrers
+</h2>
+
+<ol>
+  {analytics.topReferrers?.map((rider) => (
+    <li key={rider.id}>
+      {rider.name} —
+      {rider.referral_count} referrals —
+      {rider.points} points
+    </li>
+  ))}
+</ol>
 
       <table border="1" cellPadding="10">
         <thead>

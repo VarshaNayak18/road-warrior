@@ -38,12 +38,28 @@ export async function findRiderByReferralCode(code) {
 }
 
 export async function updateReferrer(referrer) {
+
+  let newPoints = referrer.points + 5;
+  let newReferralCount =
+    referrer.referral_count + 1;
+
+  if (newReferralCount === 10) {
+    newPoints += 100;
+  }
+
+  if (newReferralCount === 25) {
+    newPoints += 300;
+  }
+
+  if (newReferralCount === 50) {
+    newPoints += 500;
+  }
+
   const { data, error } = await supabase
     .from("riders")
     .update({
-      points: referrer.points + 5,
-      referral_count:
-        referrer.referral_count + 1,
+      points: newPoints,
+      referral_count: newReferralCount,
     })
     .eq("id", referrer.id);
 
@@ -65,6 +81,16 @@ export async function getAnalytics() {
   const { data, error } = await supabase
     .from("riders")
     .select("*");
+
+  return { data, error };
+}
+
+export async function getRiderByPhone(phone) {
+  const { data, error } = await supabase
+    .from("riders")
+    .select("*")
+    .eq("phone", phone)
+    .single();
 
   return { data, error };
 }

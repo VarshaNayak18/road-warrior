@@ -13,6 +13,9 @@ function Navbar() {
       <Link to="/">Register</Link>
       <Link to="/dashboard">Dashboard</Link>
       <Link to="/leaderboard">Leaderboard</Link>
+      <Link to="/score">
+  My Score
+</Link>
     </nav>
   );
 }

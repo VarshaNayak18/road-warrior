@@ -82,25 +82,22 @@ function Register() {
   weekly_expense: formData.weeklyExpense,
   maintenance_expense: formData.maintenanceExpense,
 
-  accidental_insurance:
-    formData.accidentalInsurance,
+  general_challenges: formData.generalChallenges,
+  ev_challenges: formData.evChallenges,
+  petrol_challenges: formData.petrolChallenges,
 
-  health_insurance:
-    formData.healthInsurance,
-
-  accident_expense:
-    formData.accidentExpense,
-
-  switch_factors:
-  formData.switchFactors,
-  
-  interested_services:
-  formData.interestedServices,
+  accidental_insurance: formData.accidentalInsurance,
+  health_insurance: formData.healthInsurance,
+  accident_expense: formData.accidentExpense,
 
   ev_openness: formData.evInterest,
 
+  switch_factors: formData.switchFactors,
+  interested_services: formData.interestedServices,
+
   referral_code: generateReferralCode(),
   referred_by: formData.referralCode,
+  referred: formData.referred,
 };
 
   const { data, error } = await registerRider(rider);
@@ -317,6 +314,7 @@ return (
     type="checkbox"
     name="generalChallenges"
     value="High Fuel Cost"
+    checked={formData.generalChallenges.includes("High Fuel Cost")}
     onChange={handleCheckboxChange}
   />
   {t.highFuelCost}
@@ -329,6 +327,7 @@ return (
     type="checkbox"
     name="generalChallenges"
     value="Frequent Breakdown"
+    checked={formData.generalChallenges.includes("Frequent Breakdown")}
     onChange={handleCheckboxChange}
   />
   {t.frequentBreakdown}
@@ -341,6 +340,7 @@ return (
     type="checkbox"
     name="generalChallenges"
     value="No Nearby Charging Station"
+    checked={formData.generalChallenges.includes("No Nearby Charging Station")}
     onChange={handleCheckboxChange}
   />
   {t.noChargingStation}
@@ -353,6 +353,7 @@ return (
     type="checkbox"
     name="generalChallenges"
     value="Battery Range Anxiety"
+    checked={formData.generalChallenges.includes("Battery Range Anxiety")}
     onChange={handleCheckboxChange}
   />
   {t.rangeAnxiety}
@@ -365,6 +366,7 @@ return (
     type="checkbox"
     name="generalChallenges"
     value="Repair Costs"
+    checked={formData.generalChallenges.includes("Repair Costs")}
     onChange={handleCheckboxChange}
   />
   {t.repairCosts}
@@ -377,6 +379,7 @@ return (
     type="checkbox"
     name="generalChallenges"
     value="Long Refuelling Time"
+    checked={formData.generalChallenges.includes("Long Refuelling Time")}
     onChange={handleCheckboxChange}
   />
   {t.refuellingTime}
@@ -391,6 +394,7 @@ return (
         type="checkbox"
         name="evChallenges"
         value="Battery Drains Too Fast"
+        checked={formData.evChallenges.includes("Battery Drains Too Fast")}
         onChange={handleCheckboxChange}
       />
       {t.batteryDrain}
@@ -403,6 +407,7 @@ return (
         type="checkbox"
         name="evChallenges"
         value="Swapping Station Too Far"
+        checked={formData.evChallenges.includes("Swapping Station Too Far")}
         onChange={handleCheckboxChange}
       />
       {t.swapFar}
@@ -415,6 +420,7 @@ return (
         type="checkbox"
         name="evChallenges"
         value="Long Charging Time At Home"
+        checked={formData.evChallenges.includes("Long Charging Time At Home")}
         onChange={handleCheckboxChange}
       />
       {t.longCharging}
@@ -427,6 +433,7 @@ return (
         type="checkbox"
         name="evChallenges"
         value="Vehicle Not Powerful Enough"
+        checked={formData.evChallenges.includes("Vehicle Not Powerful Enough")}
         onChange={handleCheckboxChange}
       />
       {t.lowPower}
@@ -443,6 +450,7 @@ return (
         type="checkbox"
         name="petrolChallenges"
         value="Fuel Price Too High"
+        checked={formData.petrolChallenges.includes("Fuel Price Too High")}
         onChange={handleCheckboxChange}
       />
       {t.fuelPrice}
@@ -455,6 +463,7 @@ return (
         type="checkbox"
         name="petrolChallenges"
         value="Frequent Engine Issues"
+        checked={formData.petrolChallenges.includes("Frequent Engine Issues")}
         onChange={handleCheckboxChange}
       />
       {t.engineIssues}
@@ -467,6 +476,7 @@ return (
         type="checkbox"
         name="petrolChallenges"
         value="Pollution Fine Risk"
+        checked={formData.petrolChallenges.includes("Pollution Fine Risk")}
         onChange={handleCheckboxChange}
       />
       {t.pollutionRisk}
@@ -479,6 +489,7 @@ return (
         type="checkbox"
         name="petrolChallenges"
         value="High Servicing Cost"
+        checked={formData.petrolChallenges.includes("High Servicing Cost")}
         onChange={handleCheckboxChange}
       />
       {t.highServiceCost}
@@ -577,6 +588,7 @@ return (
     type="checkbox"
     name="switchFactors"
     value="Lower Rental Cost"
+    checked={formData.switchFactors.includes("Lower Rental Cost")}
     onChange={handleCheckboxChange}
   />
   {t.lowerRental}
@@ -589,6 +601,7 @@ return (
     type="checkbox"
     name="switchFactors"
     value="Better Battery Range"
+    checked={formData.switchFactors.includes("Better Battery Range")}
     onChange={handleCheckboxChange}
   />
   {t.betterRange}
@@ -601,6 +614,7 @@ return (
     type="checkbox"
     name="switchFactors"
     value="Swap Stations Nearby"
+    checked={formData.switchFactors.includes("Swap Stations Nearby")}
     onChange={handleCheckboxChange}
   />
   {t.swapNearby}
@@ -613,6 +627,7 @@ return (
     type="checkbox"
     name="switchFactors"
     value="Income Guarantee"
+    checked={formData.switchFactors.includes("Income Guarantee")}
     onChange={handleCheckboxChange}
   />
   {t.incomeGuarantee}
@@ -625,6 +640,7 @@ return (
     type="checkbox"
     name="switchFactors"
     value="Employer Subsidy"
+    checked={formData.switchFactors.includes("Employer Subsidy")}
     onChange={handleCheckboxChange}
   />
   {t.employerSubsidy}
@@ -639,6 +655,7 @@ return (
     type="checkbox"
     name="interestedServices"
     value="EV Rental Offer"
+    checked={formData.interestedServices.includes("EV Rental Offer")}
     onChange={handleCheckboxChange}
   />
   {t.evRentalOffer}
@@ -651,6 +668,7 @@ return (
     type="checkbox"
     name="interestedServices"
     value="Insurance Quote"
+    checked={formData.interestedServices.includes("Insurance Quote")}
     onChange={handleCheckboxChange}
   />
   {t.insuranceQuote}
@@ -663,6 +681,7 @@ return (
     type="checkbox"
     name="interestedServices"
     value="Retrofit Information"
+    checked={formData.interestedServices.includes("Retrofit Information")}
     onChange={handleCheckboxChange}
   />
   {t.retrofitInfo}
@@ -675,6 +694,7 @@ return (
     type="checkbox"
     name="interestedServices"
     value="All Of The Above"
+    checked={formData.interestedServices.includes("All Of The Above")}
     onChange={handleCheckboxChange}
   />
   {t.allAbove}
@@ -687,6 +707,7 @@ return (
     type="checkbox"
     name="interestedServices"
     value="None"
+    checked={formData.interestedServices.includes("None")}
     onChange={handleCheckboxChange}
   />
   {t.none}

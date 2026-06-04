@@ -6,6 +6,8 @@ import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 import Leaderboard from "./pages/Leaderboard";
 
+import MyScore from "./pages/MyScore";
+
 function App() {
   return (
     <BrowserRouter>
@@ -23,6 +25,11 @@ function App() {
           path="/leaderboard"
           element={<Leaderboard />}
         />
+
+        <Route
+  path="/score"
+  element={<MyScore />}
+/>
       </Routes>
     </BrowserRouter>
   );
