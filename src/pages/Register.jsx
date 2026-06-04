@@ -12,8 +12,29 @@ function Register() {
     name: "",
     phone: "",
     city: "",
+    
+    deliveryPlatform: "",
+    experienceYears: "",
+    
     vehicleType: "",
+    vehicleBrand: "",
+    chargingMethod: "",
+    weeklyExpense: "",
+    maintenanceExpense: "",
+
+    generalChallenges: [],
+    evChallenges: [],
+    petrolChallenges: [],
+
+    accidentalInsurance: "",
+    healthInsurance: "",
+    accidentExpense: "",
+
     evInterest: "",
+    switchFactors: [],
+    interestedServices: [],
+
+    referred: "No",
     referralCode: "",
   });
 
@@ -76,86 +97,71 @@ const handleSubmit = async (event) => {
 };
 
   return (
-    <div style={{ padding: "20px" }}>
-      <h1>Road Warrior Registration</h1>
+  <div style={{ padding: "20px" }}>
+    <h1>Road Warrior Registration</h1>
 
-      <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit}>
 
-        <input
-          type="text"
-          name="name"
-          placeholder="Full Name"
-          value={formData.name}
-          onChange={handleChange}
-        />
+      {/* SECTION A */}
+      <h2>Section A — Basic Profile</h2>
 
-        <br /><br />
+      Name Input
+      Phone Input
+      City Input
+      Delivery Platform Dropdown
+      Experience Input
 
-        <input
-          type="text"
-          name="phone"
-          placeholder="Phone Number"
-          value={formData.phone}
-          onChange={handleChange}
-        />
+      {/* SECTION B */}
+      <h2>Section B — Current Vehicle</h2>
 
-        <br /><br />
+      Vehicle Type Dropdown
+      Vehicle Brand Input
+      Charging Method Dropdown
+      Weekly Expense Input
+      Maintenance Expense Input
 
-        <input
-          type="text"
-          name="city"
-          placeholder="City"
-          value={formData.city}
-          onChange={handleChange}
-        />
+      {/* SECTION C */}
+      <h2>Section C — Challenges</h2>
 
-        <br /><br />
+      General Challenges Checkboxes
 
-        <select
-          name="vehicleType"
-          value={formData.vehicleType}
-          onChange={handleChange}
-        >
-          <option value="">Select Vehicle</option>
-          <option value="Petrol">Petrol</option>
-          <option value="Diesel">Diesel</option>
-          <option value="EV">EV</option>
-        </select>
+      EV Challenges
+      (only show if vehicle = EV)
 
-        <br /><br />
+      Petrol Challenges
+      (only show if vehicle = Petrol)
 
-        <select
-          name="evInterest"
-          value={formData.evInterest}
-          onChange={handleChange}
-        >
-          <option value="">Open to EV?</option>
-          <option value="Yes">Yes</option>
-          <option value="No">No</option>
-          <option value="Need More Info">
-            Need More Info
-          </option>
-        </select>
+      {/* SECTION D */}
+      <h2>Section D — Insurance</h2>
 
-        <br /><br />
+      Accidental Insurance
+      Health Insurance
+      Accident Expense
 
-        <input
-          type="text"
-          name="referralCode"
-          placeholder="Referral Code"
-          value={formData.referralCode}
-          onChange={handleChange}
-        />
+      {/* SECTION E */}
+      <h2>Section E — Openness to Change</h2>
 
-        <br /><br />
+      EV Interest
 
-        <button type="submit">
-          Register
-        </button>
+      Switch Factors Checkboxes
 
-      </form>
-    </div>
-  );
+      Interested Services Checkboxes
+
+      {/* SECTION F */}
+      <h2>Section F — Referral</h2>
+
+      Referred? Yes/No
+
+      Referral Code
+      (only show if Yes)
+
+      <button type="submit">
+        Register
+      </button>
+
+    </form>
+  </div>
+);
 }
 
 export default Register;

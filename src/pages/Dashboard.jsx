@@ -16,6 +16,10 @@ function Dashboard() {
 
   const [riders, setRiders] = useState([]);
 
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const [selectedCity, setSelectedCity] = useState("All");
+
   useEffect(() => {
     loadAnalytics();
     loadRiders();
@@ -66,6 +70,23 @@ function Dashboard() {
     setRiders(data);
   }
 
+  const filteredRiders = riders.filter((rider) => {
+    const matchesName = rider.name
+    .toLowerCase()
+    .includes(searchTerm.toLowerCase());
+    
+    const matchesCity =
+     selectedCity === "All" ||
+     rider.city === selectedCity;
+    
+    return matchesName && matchesCity;
+  });
+
+  const cities = [
+    "All",
+    ...new Set(riders.map((rider) => rider.city))
+  ];
+
   return (
     <div className="dashboard">
       <h1>📊 Analytics Dashboard</h1>
@@ -96,6 +117,47 @@ function Dashboard() {
         Registered Riders
       </h2>
 
+      <input
+      type="text"
+      placeholder="Search rider by name..."
+      value={searchTerm}
+      onChange={(e) => setSearchTerm(e.target.value)}
+      style={{
+        padding: "10px",
+        width: "300px",
+        marginBottom: "20px",
+      }}
+      />
+
+      <select
+      value={selectedCity}
+      onChange={(e) => setSelectedCity(e.target.value)}
+      >
+        <option value="All">All Cities</option>
+        <option value="Bengaluru">Bengaluru</option>
+        <option value="Mumbai">Mumbai</option>
+        <option value="Delhi">Delhi</option>
+      </select>
+
+      <select
+      value={selectedCity}
+      onChange={(e) => setSelectedCity(e.target.value)}
+      style={{
+        padding: "10px",
+        marginLeft: "10px",
+        marginBottom: "20px",
+      }}
+      >
+        
+        {cities.map((city) => (
+          <option key={city} value={city}>
+            {city}
+          </option>
+        ))}
+      </select>
+
+
+
       <table border="1" cellPadding="10">
         <thead>
           <tr>
@@ -110,7 +172,7 @@ function Dashboard() {
         </thead>
 
         <tbody>
-          {riders.map((rider) => (
+          {filteredRiders.map((rider) => (
             <tr key={rider.id}>
               <td>{rider.id}</td>
               <td>{rider.name}</td>
