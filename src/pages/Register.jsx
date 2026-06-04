@@ -1,5 +1,10 @@
+import {
+  registerRider,
+  findRiderByReferralCode,
+  updateReferrer
+} from "../services/riderService";
+
 import { useState } from "react";
-import { registerRider } from "../services/riderService";
 import { generateReferralCode } from "../utils/referral";
 
 function Register() {
@@ -48,6 +53,17 @@ const handleSubmit = async (event) => {
 
   console.log(data);
   alert("Registration successful!");
+
+  if (formData.referralCode) {
+    const { data: referrer } =
+    await findRiderByReferralCode(
+      formData.referralCode
+    );
+    
+    if (referrer) {
+      await updateReferrer(referrer);
+    }
+  }
 
   setFormData({
     name: "",
