@@ -4,10 +4,16 @@ import {
   updateReferrer
 } from "../services/riderService";
 
+import { translations } from "../translations";
+
 import { useState } from "react";
 import { generateReferralCode } from "../utils/referral";
 
 function Register() {
+  const [language, setLanguage] = useState("en");
+
+  const t = translations[language];
+
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
@@ -45,18 +51,57 @@ function Register() {
     });
   };
 
-const handleSubmit = async (event) => {
-  event.preventDefault();
+  const handleCheckboxChange = (event) => {
+  const { name, value, checked } = event.target;
+
+  setFormData((prev) => ({
+    ...prev,
+    [name]: checked
+      ? [...prev[name], value]
+      : prev[name].filter(
+          (item) => item !== value
+        ),
+  }));
+};
+  
+  const handleSubmit = async (event) => {
+    event.preventDefault();
 
   const rider = {
-    name: formData.name,
-    phone: formData.phone,
-    city: formData.city,
-    vehicle_type: formData.vehicleType,
-    ev_openness: formData.evInterest,
-    referral_code: generateReferralCode(),
-    referred_by: formData.referralCode,
-  };
+  name: formData.name,
+  phone: formData.phone,
+  city: formData.city,
+
+  delivery_platform: formData.deliveryPlatform,
+  experience_years: formData.experienceYears,
+
+  vehicle_type: formData.vehicleType,
+  vehicle_brand: formData.vehicleBrand,
+  charging_method: formData.chargingMethod,
+
+  weekly_expense: formData.weeklyExpense,
+  maintenance_expense: formData.maintenanceExpense,
+
+  accidental_insurance:
+    formData.accidentalInsurance,
+
+  health_insurance:
+    formData.healthInsurance,
+
+  accident_expense:
+    formData.accidentExpense,
+
+  switch_factors:
+  formData.switchFactors,
+  
+  interested_services:
+  formData.interestedServices,
+
+  ev_openness: formData.evInterest,
+
+  referral_code: generateReferralCode(),
+  referred_by: formData.referralCode,
+};
 
   const { data, error } = await registerRider(rider);
 
@@ -87,73 +132,602 @@ const handleSubmit = async (event) => {
   }
 
   setFormData({
-    name: "",
-    phone: "",
-    city: "",
-    vehicleType: "",
-    evInterest: "",
-    referralCode: "",
-  });
+  name: "",
+  phone: "",
+  city: "",
+
+  deliveryPlatform: "",
+  experienceYears: "",
+
+  vehicleType: "",
+  vehicleBrand: "",
+  chargingMethod: "",
+
+  weeklyExpense: "",
+  maintenanceExpense: "",
+
+  generalChallenges: [],
+  evChallenges: [],
+  petrolChallenges: [],
+
+  accidentalInsurance: "",
+  healthInsurance: "",
+  accidentExpense: "",
+
+  evInterest: "",
+
+  switchFactors: [],
+  interestedServices: [],
+
+  referred: "No",
+  referralCode: "",
+});
 };
 
-  return (
+return (
   <div style={{ padding: "20px" }}>
-    <h1>Road Warrior Registration</h1>
 
     <form onSubmit={handleSubmit}>
 
+      <select
+  value={language}
+  onChange={(e) => setLanguage(e.target.value)}
+>
+  <option value="en">English</option>
+  <option value="hi">हिन्दी</option>
+</select>
+
+<h1>{t.title}</h1>
+
       {/* SECTION A */}
-      <h2>Section A — Basic Profile</h2>
+      <h2>{t.basicProfile}</h2>
 
-      Name Input
-      Phone Input
-      City Input
-      Delivery Platform Dropdown
-      Experience Input
+<input
+  type="text"
+  name="name"
+  placeholder={t.fullName}
+  value={formData.name}
+  onChange={handleChange}
+/>
 
+<br /><br />
+
+<input
+  type="text"
+  name="phone"
+  placeholder={t.phone}
+  value={formData.phone}
+  onChange={handleChange}
+/>
+
+<br /><br />
+
+<input
+  type="text"
+  name="city"
+  placeholder={t.city}
+  value={formData.city}
+  onChange={handleChange}
+/>
+
+<br /><br />
+
+<label>{t.deliveryPlatform}</label>
+
+<br />
+
+<select
+  name="deliveryPlatform"
+  value={formData.deliveryPlatform}
+  onChange={handleChange}
+>
+  <option value="">Select Platform</option>
+  <option>Swiggy</option>
+  <option>Zomato</option>
+  <option>Blinkit</option>
+  <option>Porter</option>
+  <option>Dunzo</option>
+  <option>{t.other}</option>
+</select>
+
+<br /><br />
+
+<input
+  type="number"
+  name="experienceYears"
+  placeholder={t.experienceYears}
+  value={formData.experienceYears}
+  onChange={handleChange}
+/>
+      
       {/* SECTION B */}
-      <h2>Section B — Current Vehicle</h2>
+<h2>{t.vehicleSection}</h2>
 
-      Vehicle Type Dropdown
-      Vehicle Brand Input
-      Charging Method Dropdown
-      Weekly Expense Input
-      Maintenance Expense Input
+<label>{t.vehicleType}</label>
+
+<br />
+
+<select
+  name="vehicleType"
+  value={formData.vehicleType}
+  onChange={handleChange}
+>
+  <option value="">Select Vehicle</option>
+  <option value="Petrol">{t.petrol}</option>
+  <option value="Diesel">{t.diesel}</option>
+  <option value="Electric">{t.electric}</option>
+  <option value="Other">{t.other}</option>
+</select>
+
+<br /><br />
+
+<input
+  type="text"
+  name="vehicleBrand"
+  placeholder={t.vehicleBrand}
+  value={formData.vehicleBrand}
+  onChange={handleChange}
+/>
+
+<br /><br />
+
+<label>{t.chargingMethod}</label>
+
+<br />
+
+<select
+  name="chargingMethod"
+  value={formData.chargingMethod}
+  onChange={handleChange}
+>
+  <option value="">Select</option>
+  <option>Petrol Pump</option>
+  <option>Home Charging</option>
+  <option>Battery Swapping Station</option>
+  <option>{t.other}</option>
+</select>
+
+<br /><br />
+
+<input
+  type="number"
+  name="weeklyExpense"
+  placeholder={t.weeklyExpense}
+  value={formData.weeklyExpense}
+  onChange={handleChange}
+/>
+
+<br /><br />
+
+<input
+  type="number"
+  name="maintenanceExpense"
+  placeholder={t.maintenanceExpense}
+  value={formData.maintenanceExpense}
+  onChange={handleChange}
+/>
 
       {/* SECTION C */}
-      <h2>Section C — Challenges</h2>
+<h2>{t.challengesSection}</h2>
 
-      General Challenges Checkboxes
+<h3>{t.topChallenges}</h3>
 
-      EV Challenges
-      (only show if vehicle = EV)
+<label>
+  <input
+    type="checkbox"
+    name="generalChallenges"
+    value="High Fuel Cost"
+    onChange={handleCheckboxChange}
+  />
+  {t.highFuelCost}
+</label>
 
-      Petrol Challenges
-      (only show if vehicle = Petrol)
+<br />
+
+<label>
+  <input
+    type="checkbox"
+    name="generalChallenges"
+    value="Frequent Breakdown"
+    onChange={handleCheckboxChange}
+  />
+  {t.frequentBreakdown}
+</label>
+
+<br />
+
+<label>
+  <input
+    type="checkbox"
+    name="generalChallenges"
+    value="No Nearby Charging Station"
+    onChange={handleCheckboxChange}
+  />
+  {t.noChargingStation}
+</label>
+
+<br />
+
+<label>
+  <input
+    type="checkbox"
+    name="generalChallenges"
+    value="Battery Range Anxiety"
+    onChange={handleCheckboxChange}
+  />
+  {t.rangeAnxiety}
+</label>
+
+<br />
+
+<label>
+  <input
+    type="checkbox"
+    name="generalChallenges"
+    value="Repair Costs"
+    onChange={handleCheckboxChange}
+  />
+  {t.repairCosts}
+</label>
+
+<br />
+
+<label>
+  <input
+    type="checkbox"
+    name="generalChallenges"
+    value="Long Refuelling Time"
+    onChange={handleCheckboxChange}
+  />
+  {t.refuellingTime}
+</label>
+
+{formData.vehicleType === "Electric" && (
+  <>
+    <h3>{t.evChallenges}</h3>
+
+    <label>
+      <input
+        type="checkbox"
+        name="evChallenges"
+        value="Battery Drains Too Fast"
+        onChange={handleCheckboxChange}
+      />
+      {t.batteryDrain}
+    </label>
+
+    <br />
+
+    <label>
+      <input
+        type="checkbox"
+        name="evChallenges"
+        value="Swapping Station Too Far"
+        onChange={handleCheckboxChange}
+      />
+      {t.swapFar}
+    </label>
+
+    <br />
+
+    <label>
+      <input
+        type="checkbox"
+        name="evChallenges"
+        value="Long Charging Time At Home"
+        onChange={handleCheckboxChange}
+      />
+      {t.longCharging}
+    </label>
+
+    <br />
+
+    <label>
+      <input
+        type="checkbox"
+        name="evChallenges"
+        value="Vehicle Not Powerful Enough"
+        onChange={handleCheckboxChange}
+      />
+      {t.lowPower}
+    </label>
+  </>
+)}
+
+{formData.vehicleType === "Petrol" && (
+  <>
+    <h3>{t.petrolChallenges}</h3>
+
+    <label>
+      <input
+        type="checkbox"
+        name="petrolChallenges"
+        value="Fuel Price Too High"
+        onChange={handleCheckboxChange}
+      />
+      {t.fuelPrice}
+    </label>
+
+    <br />
+
+    <label>
+      <input
+        type="checkbox"
+        name="petrolChallenges"
+        value="Frequent Engine Issues"
+        onChange={handleCheckboxChange}
+      />
+      {t.engineIssues}
+    </label>
+
+    <br />
+
+    <label>
+      <input
+        type="checkbox"
+        name="petrolChallenges"
+        value="Pollution Fine Risk"
+        onChange={handleCheckboxChange}
+      />
+      {t.pollutionRisk}
+    </label>
+
+    <br />
+
+    <label>
+      <input
+        type="checkbox"
+        name="petrolChallenges"
+        value="High Servicing Cost"
+        onChange={handleCheckboxChange}
+      />
+      {t.highServiceCost}
+    </label>
+  </>
+)}
 
       {/* SECTION D */}
-      <h2>Section D — Insurance</h2>
+<h2>{t.insuranceSection}</h2>
 
-      Accidental Insurance
-      Health Insurance
-      Accident Expense
+<label>{t.accidentalInsurance}</label>
+
+<br />
+
+<select
+  name="accidentalInsurance"
+  value={formData.accidentalInsurance}
+  onChange={handleChange}
+>
+  <option value="">Select</option>
+  <option value="Yes">{t.yes}</option>
+  <option value="No">{t.no}</option>
+  <option value="Not Sure">{t.notSure}</option>
+</select>
+
+<br /><br />
+
+<label>{t.healthInsurance}</label>
+
+<br />
+
+<select
+  name="healthInsurance"
+  value={formData.healthInsurance}
+  onChange={handleChange}
+>
+  <option value="">Select</option>
+  <option value="Yes">{t.yes}</option>
+  <option value="No">{t.no}</option>
+  <option value="Not Sure">{t.notSure}</option>
+</select>
+
+<br /><br />
+
+<label>{t.accidentExpense}</label>
+
+<br />
+
+<select
+  name="accidentExpense"
+  value={formData.accidentExpense}
+  onChange={handleChange}
+>
+  <option value="">Select</option>
+  <option value="Yes">{t.yes}</option>
+  <option value="No">{t.no}</option>
+</select>
 
       {/* SECTION E */}
-      <h2>Section E — Openness to Change</h2>
+<h2>{t.evSection}</h2>
 
-      EV Interest
+<label>{t.evInterest}</label>
 
-      Switch Factors Checkboxes
+<br />
 
-      Interested Services Checkboxes
+<select
+  name="evInterest"
+  value={formData.evInterest}
+  onChange={handleChange}
+>
+  <option value="">Select</option>
+
+  <option value="Yes">
+    {t.yes}
+  </option>
+
+  <option value="No">
+    {t.no}
+  </option>
+
+  <option value="Already On EV">
+    {t.alreadyEV}
+  </option>
+
+  <option value="Need More Information">
+    {t.needInfo}
+  </option>
+</select>
+
+<br /><br />
+
+<h3>{t.switchFactors}</h3>
+
+<label>
+  <input
+    type="checkbox"
+    name="switchFactors"
+    value="Lower Rental Cost"
+    onChange={handleCheckboxChange}
+  />
+  {t.lowerRental}
+</label>
+
+<br />
+
+<label>
+  <input
+    type="checkbox"
+    name="switchFactors"
+    value="Better Battery Range"
+    onChange={handleCheckboxChange}
+  />
+  {t.betterRange}
+</label>
+
+<br />
+
+<label>
+  <input
+    type="checkbox"
+    name="switchFactors"
+    value="Swap Stations Nearby"
+    onChange={handleCheckboxChange}
+  />
+  {t.swapNearby}
+</label>
+
+<br />
+
+<label>
+  <input
+    type="checkbox"
+    name="switchFactors"
+    value="Income Guarantee"
+    onChange={handleCheckboxChange}
+  />
+  {t.incomeGuarantee}
+</label>
+
+<br />
+
+<label>
+  <input
+    type="checkbox"
+    name="switchFactors"
+    value="Employer Subsidy"
+    onChange={handleCheckboxChange}
+  />
+  {t.employerSubsidy}
+</label>
+
+<br /><br />
+
+<h3>{t.interestedServices}</h3>
+
+<label>
+  <input
+    type="checkbox"
+    name="interestedServices"
+    value="EV Rental Offer"
+    onChange={handleCheckboxChange}
+  />
+  {t.evRentalOffer}
+</label>
+
+<br />
+
+<label>
+  <input
+    type="checkbox"
+    name="interestedServices"
+    value="Insurance Quote"
+    onChange={handleCheckboxChange}
+  />
+  {t.insuranceQuote}
+</label>
+
+<br />
+
+<label>
+  <input
+    type="checkbox"
+    name="interestedServices"
+    value="Retrofit Information"
+    onChange={handleCheckboxChange}
+  />
+  {t.retrofitInfo}
+</label>
+
+<br />
+
+<label>
+  <input
+    type="checkbox"
+    name="interestedServices"
+    value="All Of The Above"
+    onChange={handleCheckboxChange}
+  />
+  {t.allAbove}
+</label>
+
+<br />
+
+<label>
+  <input
+    type="checkbox"
+    name="interestedServices"
+    value="None"
+    onChange={handleCheckboxChange}
+  />
+  {t.none}
+</label>
 
       {/* SECTION F */}
-      <h2>Section F — Referral</h2>
+<h2>{t.referralSection}</h2>
 
-      Referred? Yes/No
+<label>{t.referred}</label>
 
-      Referral Code
-      (only show if Yes)
+<br />
+
+<select
+  name="referred"
+  value={formData.referred}
+  onChange={handleChange}
+>
+  <option value="No">
+    {t.no}
+  </option>
+
+  <option value="Yes">
+    {t.yes}
+  </option>
+</select>
+
+<br /><br />
+
+{formData.referred === "Yes" && (
+  <>
+    <input
+      type="text"
+      name="referralCode"
+      placeholder={t.referralCode}
+      value={formData.referralCode}
+      onChange={handleChange}
+    />
+
+    <br /><br />
+  </>
+)}
 
       <button type="submit">
         Register
