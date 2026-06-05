@@ -9,6 +9,8 @@ import { translations } from "../translations";
 import { useState } from "react";
 import { generateReferralCode } from "../utils/referral";
 
+import { supabase } from "../lib/supabase";
+
 function Register() {
   const [language, setLanguage] = useState("en");
 
@@ -67,6 +69,8 @@ function Register() {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
+  const referralCode = generateReferralCode();
+
   const rider = {
   name: formData.name,
   phone: formData.phone,
@@ -98,6 +102,11 @@ function Register() {
   referral_code: generateReferralCode(),
   referred_by: formData.referralCode,
   referred: formData.referred,
+
+  points: 10,
+  referral_count: 0,
+
+  referral_code: generateReferralCode(),
 };
 
   const { data, error } = await registerRider(rider);
@@ -117,6 +126,22 @@ function Register() {
   console.log(data);
   alert("Registration successful!");
 
+  const { data: whatsappData, error: whatsappError } =
+  await supabase.functions.invoke(
+    "send-whatsapp",
+    {
+      body: {
+        phone: formData.phone,
+        name: formData.name,
+        referralCode,
+        language,
+      },
+    }
+  );
+
+console.log("WhatsApp Data:", whatsappData);
+console.log("WhatsApp Error:", whatsappError);
+
   if (formData.referralCode) {
     const { data: referrer } =
     await findRiderByReferralCode(
@@ -124,8 +149,15 @@ function Register() {
     );
     
     if (referrer) {
-      await updateReferrer(referrer);
-    }
+  const result =
+    await updateReferrer(referrer);
+
+  if (result.milestone) {
+    alert(
+      `${referrer.name} reached ${result.data.referral_count} referrals!`
+    );
+  }
+}
   }
 
   setFormData({

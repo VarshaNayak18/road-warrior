@@ -1,4 +1,16 @@
 import "./Dashboard.css";
+import {
+  PieChart,
+  Pie,
+  Cell,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+} from "recharts";
 
 import { useEffect, useState } from "react";
 import {

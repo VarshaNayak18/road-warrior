@@ -38,32 +38,44 @@ export async function findRiderByReferralCode(code) {
 }
 
 export async function updateReferrer(referrer) {
+  const newReferralCount =
+    (referrer.referral_count || 0) + 1;
 
-  let newPoints = referrer.points + 5;
-  let newReferralCount =
-    referrer.referral_count + 1;
+  let bonusPoints = 0;
 
   if (newReferralCount === 10) {
-    newPoints += 100;
+    bonusPoints = 100;
   }
 
   if (newReferralCount === 25) {
-    newPoints += 300;
+    bonusPoints = 300;
   }
 
   if (newReferralCount === 50) {
-    newPoints += 500;
+    bonusPoints = 500;
   }
+
+  const totalPoints =
+    referrer.points + 5 + bonusPoints;
 
   const { data, error } = await supabase
     .from("riders")
     .update({
-      points: newPoints,
+      points: totalPoints,
       referral_count: newReferralCount,
     })
-    .eq("id", referrer.id);
+    .eq("id", referrer.id)
+    .select()
+    .single();
 
-  return { data, error };
+  return {
+    data,
+    error,
+    milestone:
+      newReferralCount === 10 ||
+      newReferralCount === 25 ||
+      newReferralCount === 50,
+  };
 }
 
 export async function getLeaderboard() {
