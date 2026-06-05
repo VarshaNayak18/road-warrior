@@ -1,15 +1,33 @@
-# Road Warrior
+# 🚀 Road Warrior
 
-EV Rider Survey Platform
+Road Warrior is a multilingual rider registration and referral platform built using React, Supabase, and Twilio WhatsApp.
 
-Built with:
-- React
-- Vite
+## 🌐 Live Demo
+
+🔗 https://road-warrior-cyan.vercel.app/
+
+## Features
+
+- Rider Registration
+- English & Hindi Support
+- Referral Code System
+- Points & Leaderboard
+- My Score Page
+- Admin Analytics Dashboard
+- WhatsApp Confirmation Messages
+- EV Lead Tracking
+- Insurance Lead Tracking
+
+## Tech Stack
+
+- React (Vite)
 - Supabase
+- Twilio WhatsApp API
+- Recharts
+- CSS
 
-Features:
-- Rider registration
-- Referral system
-- Points tracking
-- Admin dashboard
-- EV lead generation
+## Run Locally
+
+```bash
+npm install
+npm run dev
