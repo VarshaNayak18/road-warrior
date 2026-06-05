@@ -1,17 +1,27 @@
 .cards {
   display: flex;
-  gap: 20px;
   flex-wrap: wrap;
-  margin-bottom: 30px;
+  justify-content: center; /* centers horizontally */
+  gap: 25px;
+  margin: 30px auto;
+  max-width: 1200px;
 }
 
 .card {
-  min-width: 220px;
-  padding: 20px;
-  border-radius: 12px;
+  width: 250px;
+  min-height: 140px;
+
   background: white;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  transition: transform 0.2s;
+  border-radius: 16px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+
+  transition: 0.3s;
 }
 
 .card:hover {
@@ -46,4 +56,61 @@ tr:nth-child(even) {
 
 tr:hover {
   background: #e0f2fe;
+}
+
+.dashboard {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.dashboard h1 {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.leaderboard-card {
+  width: 600px;
+  margin: 30px auto;
+  background: white;
+  padding: 20px;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.leaderboard-card h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.leaderboard-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 12px;
+  margin-bottom: 10px;
+
+  border-radius: 10px;
+  background: #f8fafc;
+}
+
+.rank {
+  font-weight: bold;
+  color: #f59e0b;
+}
+
+.name {
+  flex: 1;
+  margin-left: 15px;
+  font-weight: 600;
+}
+
+.stats {
+  color: #3b82f6;
+}
+
+.points {
+  color: #10b981;
+  font-weight: bold;
 }

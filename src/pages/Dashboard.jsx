@@ -12,6 +12,14 @@ import {
   YAxis,
 } from "recharts";
 
+const COLORS = [
+  "#3B82F6",
+  "#10B981",
+  "#F59E0B",
+  "#EF4444",
+  "#8B5CF6",
+];
+
 import { useEffect, useState } from "react";
 import {
   getAllRiders,
@@ -77,15 +85,6 @@ function Dashboard() {
       (vehicleBreakdown[vehicle] || 0) + 1;
     });
 
-    const cityBreakdown = {};
-    data.forEach((rider) => {
-      const city =
-      rider.city
-      ?.trim()
-      .toLowerCase() || "unknown";
-      cityBreakdown[city] =
-      (cityBreakdown[city] || 0) + 1;
-    });
 
     const totalReferrals = data.reduce(
       (sum, rider) => sum + (rider.referral_count || 0),
@@ -99,6 +98,22 @@ function Dashboard() {
       (a.referral_count || 0)
     )
     .slice(0, 5);
+    
+    const cityBreakdown = {};
+
+data.forEach((rider) => {
+  const city =
+    rider.city?.trim().toLowerCase();
+
+  const normalizedCity =
+    city === "bangalore"
+      ? "Bengaluru"
+      : city.charAt(0).toUpperCase() +
+        city.slice(1);
+
+  cityBreakdown[normalizedCity] =
+    (cityBreakdown[normalizedCity] || 0) + 1;
+});
 
     setAnalytics({
       totalRiders,
@@ -143,9 +158,23 @@ function Dashboard() {
     ...new Set(riders.map((rider) => rider.city))
   ];
 
+  const vehicleData = Object.entries(
+  analytics.vehicleBreakdown || {}
+).map(([name, value]) => ({
+  name,
+  value,
+}));
+  
+const cityData = Object.entries(
+  analytics.cityBreakdown || {}
+).map(([name, value]) => ({
+  name,
+  value,
+}));
+
   return (
     <div className="dashboard">
-      <h1>📊 Analytics Dashboard</h1>
+      <h2>📊 Analytics Dashboard</h2>
 
       <div className="cards">
         <div className="card">
@@ -201,43 +230,98 @@ function Dashboard() {
   ))}
 </select>
 
-      <h2 style={{ marginTop: "30px" }}>
-  🚗 Vehicle Breakdown
-</h2>
+      <h2>🚗 Vehicle Breakdown</h2>
 
-{Object.entries(
-  analytics.vehicleBreakdown || {}
-).map(([vehicle, count]) => (
-  <p key={vehicle}>
-    {vehicle}: {count}
-  </p>
-))}
-
-<h2 style={{ marginTop: "30px" }}>
-  🏙️ City Breakdown
-</h2>
-
-{Object.entries(
-  analytics.cityBreakdown || {}
-).map(([city, count]) => (
-  <p key={city}>
-    {city}: {count}
-  </p>
-))}
-
-<h2 style={{ marginTop: "30px" }}>
-  🏆 Top Referrers
-</h2>
-
-<ol>
-  {analytics.topReferrers?.map((rider) => (
-    <li key={rider.id}>
-      {rider.name} —
-      {rider.referral_count} referrals —
-      {rider.points} points
-    </li>
+<div
+  style={{
+    width: "100%",
+    height: "350px",
+  }}
+>
+  <ResponsiveContainer
+    width="100%"
+    height="100%"
+  >
+    
+    <PieChart>
+      <Pie
+  data={vehicleData}
+  dataKey="value"
+  nameKey="name"
+  outerRadius={120}
+  label
+>
+  {vehicleData.map((entry, index) => (
+    <Cell
+      key={index}
+      fill={
+        COLORS[
+          index % COLORS.length
+        ]
+      }
+    />
   ))}
-</ol>
+</Pie>
+      <Tooltip />
+      <Legend />
+    </PieChart>
+  </ResponsiveContainer>
+</div>
+
+<h2>🏙️ City Breakdown</h2>
+
+<div
+  style={{
+    width: "100%",
+    height: "350px",
+  }}
+>
+  <ResponsiveContainer
+    width="100%"
+    height="100%"
+  >
+    <BarChart data={cityData}>
+      <XAxis dataKey="name" />
+      <YAxis />
+      <Tooltip />
+      <Legend />
+      <Bar
+  dataKey="value"
+  fill="#3B82F6"
+  radius={[8, 8, 0, 0]}
+/>
+    </BarChart>
+  </ResponsiveContainer>
+</div>
+
+<div className="leaderboard-card">
+  <h2>🏆 Top Referrers</h2>
+
+  {analytics.topReferrers?.map(
+    (rider, index) => (
+      <div
+        key={rider.id}
+        className="leaderboard-row"
+      >
+        <span className="rank">
+          #{index + 1}
+        </span>
+
+        <span className="name">
+          {rider.name}
+        </span>
+
+        <span className="stats">
+          {rider.referral_count} referrals
+        </span>
+
+        <span className="points">
+          {rider.points} pts
+        </span>
+      </div>
+    )
+  )}
+</div>
 
       <table border="1" cellPadding="10">
         <thead>
