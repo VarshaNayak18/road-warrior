@@ -52,6 +52,9 @@ function Dashboard() {
 
   const [selectedCity, setSelectedCity] = useState("All");
 
+  const [selectedLead, setSelectedLead] =
+  useState("All");
+
   useEffect(() => {
     loadAnalytics();
     loadRiders();
@@ -160,16 +163,31 @@ data.forEach((rider) => {
     setRiders(data);
   }
 
-  const filteredRiders = riders.filter((rider) => {
-    const matchesName = rider.name
-    .toLowerCase()
-    .includes(searchTerm.toLowerCase());
-    
+  const filteredRiders =
+  riders.filter((rider) => {
+
+    const matchesName =
+      rider.name
+      .toLowerCase()
+      .includes(
+        searchTerm.toLowerCase()
+      );
+
     const matchesCity =
-     selectedCity === "All" ||
-     rider.city === selectedCity;
-    
-    return matchesName && matchesCity;
+      selectedCity === "All" ||
+      rider.city === selectedCity;
+
+    const matchesLead =
+      selectedLead === "All" ||
+      rider.lead_type?.includes(
+        selectedLead
+      );
+
+    return (
+      matchesName &&
+      matchesCity &&
+      matchesLead
+    );
   });
 
   const cities = [
@@ -315,6 +333,41 @@ function exportEVLeads() {
   ⚡ Export EV Leads
 </button>
 
+<select
+  value={selectedLead}
+  onChange={(e) =>
+    setSelectedLead(e.target.value)
+  }
+>
+  <option value="All">
+    All Leads
+  </option>
+
+  <option value="EV_SALE_LEAD">
+    EV Sale
+  </option>
+
+  <option value="EV_RENTAL_LEAD">
+    EV Rental
+  </option>
+
+  <option value="RETROFIT_LEAD">
+    Retrofit
+  </option>
+
+  <option value="PERSONAL_INSURANCE_LEAD">
+    Personal Insurance
+  </option>
+
+  <option value="BIKE_INSURANCE_LEAD">
+    Bike Insurance
+  </option>
+
+  <option value="PRODUCT_LEAD">
+    Product
+  </option>
+</select>
+
       <h2>🚗 Vehicle Breakdown</h2>
 
 <div
@@ -408,6 +461,12 @@ function exportEVLeads() {
   )}
 </div>
 
+<h3>
+  Showing {filteredRiders.length}
+  {" "}
+  Riders
+</h3>
+
       <table border="1" cellPadding="10">
         <thead>
           <tr>
@@ -416,6 +475,7 @@ function exportEVLeads() {
             <th>Phone</th>
             <th>City</th>
             <th>EV Interest</th>
+            <th>Lead Types</th>
             <th>Points</th>
             <th>Referrals</th>
           </tr>
@@ -431,6 +491,7 @@ function exportEVLeads() {
               <td>{rider.ev_openness}</td>
               <td>{rider.points}</td>
               <td>{rider.referral_count}</td>
+              <td>{rider.lead_type?.join(", ")}</td>
             </tr>
           ))}
         </tbody>
