@@ -40,6 +40,8 @@ function Dashboard() {
   cityBreakdown: {},
 
   topReferrers: [],
+
+  leadCounts: {},
 });
 
   const [riders, setRiders] = useState([]);
@@ -113,6 +115,21 @@ data.forEach((rider) => {
 
   cityBreakdown[normalizedCity] =
     (cityBreakdown[normalizedCity] || 0) + 1;
+
+  
+  const leadCounts = {
+  EV_SALE_LEAD: 0,
+  EV_RENTAL_LEAD: 0,
+  RETROFIT_LEAD: 0,
+  PERSONAL_INSURANCE_LEAD: 0,
+  BIKE_INSURANCE_LEAD: 0,
+  PRODUCT_LEAD: 0,
+  };
+  data.forEach((rider) => {
+    rider.lead_type?.forEach((lead) => {
+      leadCounts[lead]++;
+    });
+  });
 });
 
     setAnalytics({

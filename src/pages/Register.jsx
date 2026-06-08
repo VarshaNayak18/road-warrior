@@ -7,6 +7,9 @@ import { translations } from "../translations";
 import { useState } from "react";
 import { generateReferralCode } from "../utils/referral";
 import { supabase } from "../lib/supabase";
+import {
+  getLeadTypes,
+} from "../utils/leadClassifier";
 
 function Register() {
 
@@ -65,6 +68,9 @@ function Register() {
 
   const [currentSection, setCurrentSection] =
   useState(1);
+
+  const leadTypes =
+    getLeadTypes(formData);
   
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -93,6 +99,7 @@ function Register() {
       ev_openness: formData.evInterest,
       switch_factors: formData.switchFactors,
       interested_services: formData.interestedServices,
+      lead_type: leadTypes,
       
       referral_code: generateReferralCode(),
       referred_by: formData.referralCode,
