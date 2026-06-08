@@ -289,7 +289,7 @@ function exportEVLeads() {
 }
 
   return (
-    <div className="dashboard">
+    <div className="dashboard-title">
       <h2>📊 Analytics Dashboard</h2>
 
       <div className="cards">
@@ -422,48 +422,44 @@ function exportEVLeads() {
 
       <h2>🚗 Vehicle Breakdown</h2>
 
-<div
-  style={{
-    width: "100%",
-    height: "350px",
-  }}
->
+<div style={{ width: "100%", height: 350 }}>
   <ResponsiveContainer
     width="100%"
     height="100%"
   >
-    
     <PieChart>
       <Pie
-  data={vehicleData}
-  dataKey="value"
-  nameKey="name"
-  outerRadius={120}
-  label
->
-  {vehicleData.map((entry, index) => (
-    <Cell
-      key={index}
-      fill={
-        COLORS[
-          index % COLORS.length
-        ]
-      }
-    />
-  ))}
-</Pie>
+        data={vehicleData}
+        dataKey="value"
+        nameKey="name"
+        outerRadius={120}
+        label
+      >
+        {vehicleData.map((entry, index) => (
+          <Cell
+            key={index}
+            fill={
+              COLORS[
+                index % COLORS.length
+              ]
+            }
+          />
+        ))}
+      </Pie>
+
       <Tooltip />
       <Legend />
     </PieChart>
   </ResponsiveContainer>
 </div>
 
-<h2>🏙️ City Breakdown</h2>
+<div className="leaderboard-city">
+  <h2>🏙️ City Breakdown</h2>
 
 <div
   style={{
     width: "100%",
-    height: "350px",
+    height: 350,
   }}
 >
   <ResponsiveContainer
@@ -471,17 +467,24 @@ function exportEVLeads() {
     height="100%"
   >
     <BarChart data={cityData}>
-      <XAxis dataKey="name" />
+      <XAxis
+  dataKey="name"
+  angle={-20}
+  textAnchor="end"
+  height={70}
+/>
       <YAxis />
       <Tooltip />
       <Legend />
+
       <Bar
-  dataKey="value"
-  fill="#3B82F6"
-  radius={[8, 8, 0, 0]}
-/>
+        dataKey="value"
+        fill="#3B82F6"
+        radius={[8, 8, 0, 0]}
+      />
     </BarChart>
   </ResponsiveContainer>
+</div>
 </div>
 
 <div className="leaderboard-card">
@@ -513,10 +516,8 @@ function exportEVLeads() {
   )}
 </div>
 
-<h3>
-  Showing {filteredRiders.length}
-  {" "}
-  Riders
+<h3 className="rider-count">
+  Showing {filteredRiders.length} Riders
 </h3>
 
       <table border="1" cellPadding="10">

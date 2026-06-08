@@ -1,3 +1,22 @@
+:root {
+  --primary-green: #16a34a;
+  --light-green: #dcfce7;
+  --primary-orange: #f97316;
+  --light-orange: #ffedd5;
+  --dark-text: #1f2937;
+}
+
+.dashboard-title {
+  color: var(--primary-green);
+  font-weight: 800;
+}
+
+
+.toolbar button {
+  background: var(--primary-green);
+  color: white;
+}
+
 .cards {
   display: flex;
   flex-wrap: wrap;
@@ -12,6 +31,9 @@
   min-height: 140px;
 
   background: white;
+
+  border-top: 6px solid #16a34a;
+
   border-radius: 16px;
 
   display: flex;
@@ -20,8 +42,6 @@
   align-items: center;
 
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-
-  transition: 0.3s;
 }
 
 .card:hover {
@@ -29,7 +49,7 @@
 }
 
 .card p {
-  font-size: 2rem;
+  font-size: 1rem;
   font-weight: bold;
 }
 
@@ -40,7 +60,7 @@ table {
 }
 
 th {
-  background: #2563eb;
+  background: #16a34a;
   color: white;
 }
 
@@ -72,7 +92,8 @@ tr:hover {
 .leaderboard-card {
   width: 600px;
   margin: 30px auto;
-  background: white;
+  background: #fffbeb;
+  border-top: 6px solid #f97316;
   padding: 20px;
   border-radius: 16px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
@@ -96,23 +117,29 @@ tr:hover {
 }
 
 .rank {
-  font-weight: bold;
+  font-size: 1rem;
+  font-weight: 700;
   color: #f59e0b;
+  width: 60px;
 }
 
 .name {
   flex: 1;
-  margin-left: 15px;
+  margin-left: 12px;
+  font-size: 1rem;
   font-weight: 600;
+  color: #111827;
 }
 
 .stats {
+  font-size: 1rem;
   color: #3b82f6;
 }
 
 .points {
+  font-size: 1rem;
   color: #10b981;
-  font-weight: bold;
+  font-weight: 700;
 }
 
 .form-nav {
@@ -142,7 +169,13 @@ tr:hover {
   padding: 10px 12px;
   border: 1px solid #ddd;
   border-radius: 8px;
-  min-width: 140px;
+  width: 150px;
+}
+
+.toolbar button {
+  background: #16a34a;
+  color: white;
+  border: none;
 }
 
 .toolbar button {
@@ -155,4 +188,96 @@ tr:hover {
 
 .toolbar button:hover {
   transform: translateY(-1px);
+}
+
+.dashboard {
+  background: #f8fafc;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.dashboard-title {
+  color: #16a34a;
+  font-size: 2rem;
+  font-weight: 800;
+}
+
+.card h2 {
+  color: #111827 !important;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.card p {
+  color: #16a34a !important;
+  font-size: 2rem;
+  font-weight: 800;
+}
+
+.recharts-wrapper text {
+  font-size: 12px !important;
+}
+
+.recharts-legend-item-text {
+  font-size: 14px !important;
+}
+
+.recharts-cartesian-axis-tick-value {
+  font-size: 12px !important;
+}
+
+.leaderboard-row {
+  display: grid;
+  grid-template-columns: 80px 1fr 150px 120px;
+  justify-content: space-between;
+  align-items: center;
+
+ padding: 8px 14px;
+  margin-bottom: 6px;
+
+
+  border-radius: 10px;
+  background: #f8fafc;
+}
+
+.leaderboard-card {
+  width: 700px;
+  max-width: 90%;
+  padding: 15px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  font-size: 15px;
+}
+
+th {
+  background: #16a34a;
+  color: white;
+  padding: 14px;
+  font-size: 15px;
+}
+
+td {
+  padding: 12px;
+  font-size: 14px;
+  color: #1f2937;
+}
+
+tr:nth-child(even) {
+  background: #f8fafc;
+}
+
+tr:hover {
+  background: #dcfce7;
+}
+
+.rider-count {
+  text-align: center;
+  color: #16a34a;
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin: 20px 0;
 }
