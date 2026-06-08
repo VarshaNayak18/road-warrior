@@ -21,6 +21,7 @@ function Register() {
     name: "",
     phone: "",
     city: "",
+    pincode:"",
     
     deliveryPlatform: "",
     experienceYears: "",
@@ -71,14 +72,25 @@ function Register() {
 
   const leadTypes =
     getLeadTypes(formData);
+
+  function isValidPhone(phone) {
+  return /^[6-9]\d{9}$/.test(phone);
+}
   
   const handleSubmit = async (event) => {
+    if (!isValidPhone(formData.phone)) {
+  alert(
+    "Please enter a valid 10-digit Indian mobile number"
+  );
+  return;
+}
     event.preventDefault();
     const referralCode = generateReferralCode();
     const rider = {
       name: formData.name,
       phone: formData.phone,
       city: formData.city,
+      pincode: formData.pincode,
       delivery_platform: formData.deliveryPlatform,
       experience_years: formData.experienceYears,
 
@@ -163,6 +175,7 @@ function Register() {
       name: "",
       phone: "",
       city: "",
+      pincode: "",
       deliveryPlatform: "",
       experienceYears: "",
       
@@ -256,9 +269,10 @@ function Register() {
       <br /><br />
       
       <input
-      type="text"
+      type="tel"
       name="phone"
-      placeholder={t.phone}
+      maxLength="10"
+      pattern="[0-9]{10}"
       value={formData.phone}
       onChange={handleChange}
       />
@@ -272,6 +286,16 @@ function Register() {
       onChange={handleChange}
       />
       <br /><br />
+
+      <input
+  type="text"
+  name="pincode"
+  placeholder="PIN Code"
+  value={formData.pincode}
+  onChange={handleChange}
+  maxLength="6"
+/>
+<br /><br />
       
       <label>{t.deliveryPlatform}</label>
       <br />

@@ -57,6 +57,18 @@ function Dashboard() {
   const [selectedLead, setSelectedLead] =
   useState("All");
 
+  const [selectedPincode, setSelectedPincode] =
+  useState("All");
+
+  const pincodes = [
+  "All",
+  ...new Set(
+    riders
+      .map((rider) => rider.pincode)
+      .filter(Boolean)
+  ),
+];
+
   useEffect(() => {
     loadAnalytics();
     loadRiders();
@@ -144,7 +156,6 @@ const followUpPending =
     (rider) => !rider.follow_up
   ).length;
 
-
     setAnalytics({
       totalRiders,
       evInterested,
@@ -190,32 +201,30 @@ const followUpPending =
   loadRiders();
 }
 
-  const filteredRiders =
-  riders.filter((rider) => {
+  const filteredRiders = riders.filter((rider) => {
+  const matchesName = rider.name
+    .toLowerCase()
+    .includes(searchTerm.toLowerCase());
 
-    const matchesName =
-      rider.name
-      .toLowerCase()
-      .includes(
-        searchTerm.toLowerCase()
-      );
+  const matchesCity =
+    selectedCity === "All" ||
+    rider.city === selectedCity;
 
-    const matchesCity =
-      selectedCity === "All" ||
-      rider.city === selectedCity;
+  const matchesLead =
+    selectedLead === "All" ||
+    rider.lead_type?.includes(selectedLead);
 
-    const matchesLead =
-      selectedLead === "All" ||
-      rider.lead_type?.includes(
-        selectedLead
-      );
+  const matchesPincode =
+    selectedPincode === "All" ||
+    rider.pincode === selectedPincode;
 
-    return (
-      matchesName &&
-      matchesCity &&
-      matchesLead
-    );
-  });
+  return (
+    matchesName &&
+    matchesCity &&
+    matchesLead &&
+    matchesPincode
+  );
+});
 
   const cities = [
     "All",
@@ -328,16 +337,22 @@ function exportEVLeads() {
     flexWrap: "wrap",
   }}
 >
+  <div className="toolbar">
+
   <input
     type="text"
-    placeholder="Search rider by name..."
+    placeholder="🔍 Search rider..."
     value={searchTerm}
-    onChange={(e) => setSearchTerm(e.target.value)}
+    onChange={(e) =>
+      setSearchTerm(e.target.value)
+    }
   />
 
   <select
     value={selectedCity}
-    onChange={(e) => setSelectedCity(e.target.value)}
+    onChange={(e) =>
+      setSelectedCity(e.target.value)
+    }
   >
     {cities.map((city) => (
       <option key={city} value={city}>
@@ -346,59 +361,64 @@ function exportEVLeads() {
     ))}
   </select>
 
-  <button
-    onClick={exportCSV}
-    style={{
-      padding: "10px 15px",
-      background: "#22c55e",
-      color: "white",
-      border: "none",
-      borderRadius: "8px",
-      cursor: "pointer",
-    }}
+  <select
+    value={selectedPincode}
+    onChange={(e) =>
+      setSelectedPincode(e.target.value)
+    }
   >
+    {pincodes.map((pin) => (
+      <option key={pin} value={pin}>
+        {pin}
+      </option>
+    ))}
+  </select>
+
+  <select
+    value={selectedLead}
+    onChange={(e) =>
+      setSelectedLead(e.target.value)
+    }
+  >
+    <option value="All">
+      All Leads
+    </option>
+
+    <option value="EV_SALE_LEAD">
+      EV Sale
+    </option>
+
+    <option value="EV_RENTAL_LEAD">
+      EV Rental
+    </option>
+
+    <option value="RETROFIT_LEAD">
+      Retrofit
+    </option>
+
+    <option value="PERSONAL_INSURANCE_LEAD">
+      Personal Insurance
+    </option>
+
+    <option value="BIKE_INSURANCE_LEAD">
+      Bike Insurance
+    </option>
+
+    <option value="PRODUCT_LEAD">
+      Product Lead
+    </option>
+  </select>
+
+  <button onClick={exportCSV}>
     📥 Export CSV
   </button>
+
+  <button onClick={exportEVLeads}>
+    ⚡ Export EV Leads
+  </button>
+
 </div>
-
-<button onClick={exportEVLeads}>
-  ⚡ Export EV Leads
-</button>
-
-<select
-  value={selectedLead}
-  onChange={(e) =>
-    setSelectedLead(e.target.value)
-  }
->
-  <option value="All">
-    All Leads
-  </option>
-
-  <option value="EV_SALE_LEAD">
-    EV Sale
-  </option>
-
-  <option value="EV_RENTAL_LEAD">
-    EV Rental
-  </option>
-
-  <option value="RETROFIT_LEAD">
-    Retrofit
-  </option>
-
-  <option value="PERSONAL_INSURANCE_LEAD">
-    Personal Insurance
-  </option>
-
-  <option value="BIKE_INSURANCE_LEAD">
-    Bike Insurance
-  </option>
-
-  <option value="PRODUCT_LEAD">
-    Product
-  </option>
-</select>
+</div>
 
       <h2>🚗 Vehicle Breakdown</h2>
 
@@ -506,6 +526,7 @@ function exportEVLeads() {
             <th>Name</th>
             <th>Phone</th>
             <th>City</th>
+            <th>PIN Code</th>
             <th>EV Interest</th>
             <th>Lead Types</th>
             <th>Points</th>
@@ -521,6 +542,7 @@ function exportEVLeads() {
               <td>{rider.name}</td>
               <td>{rider.phone}</td>
               <td>{rider.city}</td>
+              <td>{rider.pincode}</td>
               <td>{rider.ev_openness}</td>
               <td>{rider.points}</td>
               <td>{rider.referral_count}</td>
