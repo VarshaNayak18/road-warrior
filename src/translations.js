@@ -348,4 +348,51 @@ export const translations = {
     register:
       "राइडर पंजीकृत करें",
   },
+  kn: {
+  title: "ರೋಡ್ ವಾರಿಯರ್ ನೋಂದಣಿ",
+
+  basicProfile: "ಭಾಗ A — ಮೂಲ ಮಾಹಿತಿ",
+  fullName: "ಪೂರ್ಣ ಹೆಸರು",
+  phone: "ವಾಟ್ಸಾಪ್ ಸಂಖ್ಯೆ",
+  city: "ನಗರ",
+  deliveryPlatform: "ಡೆಲಿವರಿ ಪ್ಲಾಟ್‌ಫಾರ್ಮ್",
+  experienceYears: "ಅನುಭವದ ವರ್ಷಗಳು",
+
+  vehicleSection: "ಭಾಗ B — ಪ್ರಸ್ತುತ ವಾಹನ",
+  vehicleType: "ವಾಹನದ ಪ್ರಕಾರ",
+  vehicleBrand: "ವಾಹನ ಬ್ರ್ಯಾಂಡ್ ಮತ್ತು ಮಾದರಿ",
+  chargingMethod: "ಇಂಧನ / ಚಾರ್ಜಿಂಗ್ ವಿಧಾನ",
+  weeklyExpense: "ವಾರದ ಇಂಧನ / ಚಾರ್ಜಿಂಗ್ ವೆಚ್ಚ",
+  maintenanceExpense: "ತಿಂಗಳ ನಿರ್ವಹಣಾ ವೆಚ್ಚ",
+
+  petrol: "ಪೆಟ್ರೋಲ್ ದ್ವಿಚಕ್ರ ವಾಹನ",
+  diesel: "ಡೀಸೆಲ್ ದ್ವಿಚಕ್ರ ವಾಹನ",
+  electric: "ವಿದ್ಯುತ್ ದ್ವಿಚಕ್ರ ವಾಹನ",
+  other: "ಇತರೆ",
+
+  challengesSection:
+    "ಭಾಗ C — ಸವಾಲುಗಳು ಮತ್ತು ಸಮಸ್ಯೆಗಳು",
+
+  insuranceSection:
+    "ಭಾಗ D — ವಿಮೆ",
+
+  evSection:
+    "ಭಾಗ E — ಬದಲಾವಣೆಗೆ ಸಿದ್ಧತೆ",
+
+  referralSection:
+    "ಭಾಗ F — ರೆಫರಲ್",
+
+  referred:
+    "ಯಾರಾದರೂ ನಿಮ್ಮನ್ನು ರೆಫರ್ ಮಾಡಿದ್ದಾರೆಯೇ?",
+
+  referralCode:
+    "ರೆಫರಲ್ ಕೋಡ್",
+
+  yes: "ಹೌದು",
+  no: "ಇಲ್ಲ",
+  notSure: "ಗೊತ್ತಿಲ್ಲ",
+
+  register:
+    "ರೈಡರ್ ನೋಂದಣಿ ಮಾಡಿ",
+},
 };
