@@ -231,25 +231,15 @@ function Register() {
         </div>
       
       <h1>{t.title}</h1>
+
       {/* SECTION A */}
 
       {currentSection === 1 && (
         <>
         <h2>{t.basicProfile}</h2>
-        {/* Section A Fields */}
-        <button
-        type="button"
-        onClick={() =>
-          setCurrentSection(2)
-        }
-        >
-          Next
-          </button>
-          </>
-      )}
 
-      <input
-      type="text"
+        <input
+        type="text"
       name="name"
       placeholder={t.fullName}
       value={formData.name}
@@ -300,6 +290,7 @@ function Register() {
       onChange={handleChange}
       />
 
+      <div>
       <button
       type="button"
       onClick={() =>
@@ -308,6 +299,9 @@ function Register() {
       >
         Next
       </button>
+      </div>
+      </>
+    )}
 
       
       {/* SECTION B */}
@@ -315,20 +309,9 @@ function Register() {
       {currentSection === 2 && (
         <>
         <h2>{t.vehicleSection}</h2>
-        {/* Section B Fields */}
-        <button
-        type="button"
-        onClick={() =>
-          setCurrentSection(3)
-        }
-        >
-          Next
-          </button>
-          </>
-      )}
 
-      <label>{t.vehicleType}</label>
-      <br />
+        <label>{t.vehicleType}</label>
+        <br />
       
       <select
       name="vehicleType"
@@ -384,14 +367,25 @@ function Register() {
       onChange={handleChange}
       />
 
+      <div>
       <button
-      type="button"
-      onClick={() =>
-        setCurrentSection(3)
-      }
+        type="button"
+        onClick={() => setCurrentSection(1)}
       >
-        Next
+        ← Previous
       </button>
+
+      <button
+        type="button"
+        onClick={() => setCurrentSection(3)}
+      >
+        Next →
+      </button>
+    </div>
+    </>
+  )}
+
+      
       
       
       {/* SECTION C */}
@@ -399,19 +393,8 @@ function Register() {
       {currentSection === 3 && (
         <>
         <h2>{t.challengesSection}</h2>
-        {/* Section C Fields */}
-        <button
-        type="button"
-        onClick={() =>
-          setCurrentSection(4)
-        }
-        >
-          Next
-          </button>
-          </>
-      )}
-      
-      <h3>{t.topChallenges}</h3>
+        
+        <h3>{t.topChallenges}</h3>
 
       <label>
         <input
@@ -590,34 +573,33 @@ function Register() {
         </>
       )}
 
+      <div>
       <button
-      type="button"
-      onClick={() =>
-        setCurrentSection(4)
-      }
+        type="button"
+        onClick={() => setCurrentSection(2)}
       >
-        Next
+        ← Previous
       </button>
 
+      <button
+        type="button"
+        onClick={() => setCurrentSection(4)}
+      >
+        Next →
+      </button>
+    </div>
+  </>
+      )}
+      
+      
       
       {/* SECTION D */}
 
       {currentSection === 4 && (
         <>
         <h2>{t.insuranceSection}</h2>
-        {/* Section D Fields */}
-        <button
-        type="button"
-        onClick={() =>
-          setCurrentSection(5)
-        }
-        >
-          Next
-          </button>
-          </>
-      )}
-      
-      <label>{t.accidentalInsurance}</label>
+        
+        <label>{t.accidentalInsurance}</label>
       <br />
       <select
       name="accidentalInsurance"
@@ -657,34 +639,32 @@ function Register() {
         <option value="No">{t.no}</option>
       </select>
 
+      <div>
       <button
-      type="button"
-      onClick={() =>
-        setCurrentSection(5)
-      }
+        type="button"
+        onClick={() => setCurrentSection(3)}
       >
-        Next
+        ← Previous
       </button>
 
-
+      <button
+        type="button"
+        onClick={() => setCurrentSection(5)}
+      >
+        Next →
+      </button>
+    </div>
+  </>
+)}
+      
+      
       {/* SECTION E */}
 
       {currentSection === 5 && (
         <>
         <h2>{t.evSection}</h2>
-        {/* Section E Fields */}
-        <button
-        type="button"
-        onClick={() =>
-          setCurrentSection(6)
-        }
-        >
-          Next
-          </button>
-          </>
-      )}
-
-      <label>{t.evInterest}</label><br />
+        
+        <label>{t.evInterest}</label><br />
       <select
       name="evInterest"
       value={formData.evInterest}
@@ -829,55 +809,86 @@ function Register() {
         {t.none}
       </label>
 
+      <div>
       <button
-      type="button"
-      onClick={() =>
-        setCurrentSection(6)
-      }
+        type="button"
+        onClick={() => setCurrentSection(4)}
       >
-        Next
+        ← Previous
       </button>
-      
+
+      <button
+        type="button"
+        onClick={() => setCurrentSection(6)}
+      >
+        Next →
+      </button>
+    </div>
+  </>
+      )}
+
       
       {/* SECTION F */}
-      <h2>{t.referralSection}</h2>
-      
-      <label>{t.referred}</label>
-      <br />
-      <select
+{currentSection === 6 && (
+  <>
+    <h2>{t.referralSection}</h2>
+
+    <label>{t.referred}</label>
+    <br />
+
+    <select
       name="referred"
       value={formData.referred}
       onChange={handleChange}
-      >
-        <option value="No">
-          {t.no}
-        </option>
-        <option value="Yes">
-          {t.yes}
-        </option>
-      </select>
-      <br /><br />
-      
-      {formData.referred === "Yes" && (
-        <>
+    >
+      <option value="No">
+        {t.no}
+      </option>
+
+      <option value="Yes">
+        {t.yes}
+      </option>
+    </select>
+
+    <br /><br />
+
+    {formData.referred === "Yes" && (
+      <>
         <input
-        type="text"
-        name="referralCode"
-        placeholder={t.referralCode}
-        value={formData.referralCode}
-        onChange={handleChange}
+          type="text"
+          name="referralCode"
+          placeholder={t.referralCode}
+          value={formData.referralCode}
+          onChange={handleChange}
         />
+
         <br /><br />
-        </>
-      )}
-      
-      <button type="submit">
-        Register
+      </>
+    )}
+
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "space-between",
+        marginTop: "20px",
+      }}
+    >
+      <button
+        type="button"
+        onClick={() => setCurrentSection(5)}
+      >
+        ← Previous
       </button>
+
+      <button type="submit">
+        Register Rider
+      </button>
+    </div>
+  </>
+)}
       
-    </form>
-  </div>
-  );
-}
+      </form>
+      </div> 
+  )}; 
 
 export default Register;

@@ -114,3 +114,16 @@ tr:hover {
   color: #10b981;
   font-weight: bold;
 }
+
+.form-nav {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.form-nav button {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
