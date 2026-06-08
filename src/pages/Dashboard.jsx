@@ -26,6 +26,8 @@ import {
   getAnalytics,
 } from "../services/riderService";
 
+import Papa from "papaparse";
+
 function Dashboard() {
   const [analytics, setAnalytics] = useState({
   totalRiders: 0,
@@ -189,6 +191,49 @@ const cityData = Object.entries(
   value,
 }));
 
+function exportCSV() {
+  const csv = Papa.unparse(filteredRiders);
+
+  const blob = new Blob(
+    [csv],
+    { type: "text/csv;charset=utf-8;" }
+  );
+
+  const link = document.createElement("a");
+
+  const url = URL.createObjectURL(blob);
+
+  link.href = url;
+  link.download = "road-warrior-riders.csv";
+
+  link.click();
+}
+
+function exportEVLeads() {
+  const evLeads = riders.filter(
+    (rider) =>
+      rider.lead_type?.includes(
+        "EV_SALE_LEAD"
+      )
+  );
+
+  const csv = Papa.unparse(evLeads);
+
+  const blob = new Blob(
+    [csv],
+    { type: "text/csv;charset=utf-8;" }
+  );
+
+  const link = document.createElement("a");
+
+  link.href =
+    URL.createObjectURL(blob);
+
+  link.download = "ev-leads.csv";
+
+  link.click();
+}
+
   return (
     <div className="dashboard">
       <h2>📊 Analytics Dashboard</h2>
@@ -224,28 +269,51 @@ const cityData = Object.entries(
         Registered Riders
       </h2>
 
-      <input
-      type="text"
-      placeholder="Search rider by name..."
-      value={searchTerm}
-      onChange={(e) => setSearchTerm(e.target.value)}
-      style={{
-        padding: "10px",
-        width: "300px",
-        marginBottom: "20px",
-      }}
-      />
-
-      <select
-  value={selectedCity}
-  onChange={(e) => setSelectedCity(e.target.value)}
+      <div
+  style={{
+    display: "flex",
+    justifyContent: "center",
+    gap: "10px",
+    marginBottom: "20px",
+    flexWrap: "wrap",
+  }}
 >
-  {cities.map((city) => (
-    <option key={city} value={city}>
-      {city}
-    </option>
-  ))}
-</select>
+  <input
+    type="text"
+    placeholder="Search rider by name..."
+    value={searchTerm}
+    onChange={(e) => setSearchTerm(e.target.value)}
+  />
+
+  <select
+    value={selectedCity}
+    onChange={(e) => setSelectedCity(e.target.value)}
+  >
+    {cities.map((city) => (
+      <option key={city} value={city}>
+        {city}
+      </option>
+    ))}
+  </select>
+
+  <button
+    onClick={exportCSV}
+    style={{
+      padding: "10px 15px",
+      background: "#22c55e",
+      color: "white",
+      border: "none",
+      borderRadius: "8px",
+      cursor: "pointer",
+    }}
+  >
+    📥 Export CSV
+  </button>
+</div>
+
+<button onClick={exportEVLeads}>
+  ⚡ Export EV Leads
+</button>
 
       <h2>🚗 Vehicle Breakdown</h2>
 
