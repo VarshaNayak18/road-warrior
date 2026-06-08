@@ -21,12 +21,14 @@ const COLORS = [
 ];
 
 import { useEffect, useState } from "react";
+
+import Papa from "papaparse";
+
 import {
   getAllRiders,
   getAnalytics,
+  updateFollowUp,
 } from "../services/riderService";
-
-import Papa from "papaparse";
 
 function Dashboard() {
   const [analytics, setAnalytics] = useState({
@@ -137,6 +139,12 @@ data.forEach((rider) => {
   });
 });
 
+const followUpPending =
+  data.filter(
+    (rider) => !rider.follow_up
+  ).length;
+
+
     setAnalytics({
       totalRiders,
       evInterested,
@@ -149,6 +157,8 @@ data.forEach((rider) => {
       cityBreakdown,
       
       topReferrers,
+
+      followUpPending,
     });
   }
 
@@ -162,6 +172,23 @@ data.forEach((rider) => {
 
     setRiders(data);
   }
+
+  async function toggleFollowUp(
+  rider
+) {
+  const { error } =
+    await updateFollowUp(
+      rider.id,
+      rider.follow_up
+    );
+
+  if (error) {
+    console.error(error);
+    return;
+  }
+
+  loadRiders();
+}
 
   const filteredRiders =
   riders.filter((rider) => {
@@ -280,7 +307,12 @@ function exportEVLeads() {
         <div className="card">
           <h2>Insurance Leads</h2>
           <p>{analytics.uninsured}</p>
-          </div>
+        </div>
+
+        <div className="card">
+          <h2>Follow-Ups Pending</h2>
+          <p>{analytics.followUpPending}</p>
+        </div>
       </div>
 
       <h2 style={{ marginTop: "30px" }}>
@@ -478,6 +510,7 @@ function exportEVLeads() {
             <th>Lead Types</th>
             <th>Points</th>
             <th>Referrals</th>
+            <th>Follow Up</th>
           </tr>
         </thead>
 
@@ -492,6 +525,17 @@ function exportEVLeads() {
               <td>{rider.points}</td>
               <td>{rider.referral_count}</td>
               <td>{rider.lead_type?.join(", ")}</td>
+              <td>
+                <input
+                type="checkbox"
+                checked={
+                  rider.follow_up || false
+                }
+                onChange={() =>
+                  toggleFollowUp(rider)
+                }
+                />
+              </td>
             </tr>
           ))}
         </tbody>

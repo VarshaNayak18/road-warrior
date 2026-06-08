@@ -106,3 +106,18 @@ export async function getRiderByPhone(phone) {
 
   return { data, error };
 }
+
+export async function updateFollowUp(
+  id,
+  currentValue
+) {
+  const { data, error } =
+    await supabase
+      .from("riders")
+      .update({
+        follow_up: !currentValue,
+      })
+      .eq("id", id);
+
+  return { data, error };
+}
