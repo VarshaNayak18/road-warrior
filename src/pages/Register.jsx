@@ -83,9 +83,30 @@ function Register() {
   function isValidPhone(phone) {
   return /^[6-9]\d{9}$/.test(phone);
 }
-  
+
   const handleSubmit = async (event) => {
     event.preventDefault();
+
+      
+const lastSubmissions =
+  JSON.parse(
+    localStorage.getItem("submissions") || "[]"
+  );
+
+const now = Date.now();
+
+const recentSubmissions =
+  lastSubmissions.filter(
+    (time) =>
+      now - time < 60 * 1000
+  ); // last 1 minute
+
+if (recentSubmissions.length >= 3) {
+  alert(
+    "Too many registrations. Please wait 1 minute."
+  );
+  return;
+}
 
     if (!executeRecaptcha) {
   alert(
@@ -176,6 +197,11 @@ if (
       }
       return;
     }
+
+    localStorage.setItem(
+  "submissions",
+  JSON.stringify(recentSubmissions)
+);
     
     console.log(data);
     alert("Registration successful!");
@@ -200,6 +226,8 @@ if (
     
     console.log("WhatsApp Data:", whatsappData);
     console.log("WhatsApp Error:", whatsappError);
+
+    recentSubmissions.push(now);
     
     if (formData.referralCode) {
       const { data: referrer } =
