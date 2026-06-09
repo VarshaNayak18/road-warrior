@@ -10,6 +10,9 @@ import { supabase } from "../lib/supabase";
 import {
   getLeadTypes,
 } from "../utils/leadClassifier";
+import {
+  useGoogleReCaptcha
+} from "react-google-recaptcha-v3";
 
 function Register() {
 
@@ -67,6 +70,10 @@ function Register() {
     }));
   };
 
+  const {
+  executeRecaptcha
+} = useGoogleReCaptcha();
+
   const [currentSection, setCurrentSection] =
   useState(1);
 
@@ -79,6 +86,23 @@ function Register() {
   
   const handleSubmit = async (event) => {
     event.preventDefault();
+
+    if (!executeRecaptcha) {
+  alert(
+    "reCAPTCHA not ready"
+  );
+  return;
+}
+
+const token =
+  await executeRecaptcha(
+    "register_rider"
+  );
+
+console.log(
+  "reCAPTCHA token:",
+  token
+);
 
      const phoneRegex = /^[6-9]\d{9}$/;
 
