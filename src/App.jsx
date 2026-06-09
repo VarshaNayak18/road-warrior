@@ -8,18 +8,34 @@ import Leaderboard from "./pages/Leaderboard";
 
 import MyScore from "./pages/MyScore";
 
+import Login from "./pages/Login";
+
+import ProtectedRoute
+from "./components/ProtectedRoute";
+
 function App() {
   return (
     <BrowserRouter>
       <Navbar />
 
+
       <Routes>
         <Route path="/" element={<Register />} />
 
+        
+      <Route
+  path="/login"
+  element={<Login />}
+/>
+
         <Route
-          path="/dashboard"
-          element={<Dashboard />}
-        />
+  path="/dashboard"
+  element={
+    <ProtectedRoute>
+      <Dashboard />
+    </ProtectedRoute>
+  }
+/>
 
         <Route
           path="/leaderboard"

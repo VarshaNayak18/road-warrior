@@ -292,6 +292,19 @@ function exportEVLeads() {
     <div className="dashboard-title">
       <h2>📊 Analytics Dashboard</h2>
 
+      <button
+  onClick={() => {
+    localStorage.removeItem(
+      "adminToken"
+    );
+
+    window.location.href =
+      "/login";
+  }}
+>
+  Logout
+</button>
+
       <div className="cards">
         <div className="card">
           <h2>Total Riders</h2>
