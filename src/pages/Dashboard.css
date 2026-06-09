@@ -281,3 +281,25 @@ tr:hover {
   font-weight: 700;
   margin: 20px 0;
 }
+
+.login-container {
+  max-width: 400px;
+  margin: 100px auto;
+  padding: 30px;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0,0,0,.08);
+}
+
+.login-container input {
+  width: 100%;
+  padding: 12px;
+  margin-top: 10px;
+}
+
+.login-container button {
+  width: 100%;
+  margin-top: 15px;
+  background: #16a34a;
+  color: white;
+}

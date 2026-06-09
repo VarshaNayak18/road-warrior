@@ -12,6 +12,8 @@ import {
   YAxis,
 } from "recharts";
 
+import { Link } from "react-router-dom";
+
 const COLORS = [
   "#3B82F6",
   "#10B981",
@@ -292,18 +294,27 @@ function exportEVLeads() {
     <div className="dashboard-title">
       <h2>📊 Analytics Dashboard</h2>
 
-      <button
-  onClick={() => {
-    localStorage.removeItem(
-      "adminToken"
-    );
-
-    window.location.href =
-      "/login";
+      <div
+  style={{
+    display: "flex",
+    justifyContent: "flex-end",
+    marginBottom: "20px",
   }}
 >
-  Logout
-</button>
+
+  <button
+    onClick={() => {
+      localStorage.removeItem(
+        "adminToken"
+      );
+
+      window.location.href =
+        "/login";
+    }}
+  >
+    Logout
+  </button>
+</div>
 
       <div className="cards">
         <div className="card">
