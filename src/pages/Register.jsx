@@ -78,13 +78,30 @@ function Register() {
 }
   
   const handleSubmit = async (event) => {
-    if (!isValidPhone(formData.phone)) {
+    event.preventDefault();
+
+     const phoneRegex = /^[6-9]\d{9}$/;
+
+  if (!phoneRegex.test(formData.phone)) {
+    alert(
+      "Please enter a valid 10-digit Indian mobile number."
+    );
+    return;
+  }
+
+  const lastSubmit =
+  localStorage.getItem("lastSubmit");
+
+if (
+  lastSubmit &&
+  Date.now() - Number(lastSubmit) < 30000
+) {
   alert(
-    "Please enter a valid 10-digit Indian mobile number"
+    "Please wait 30 seconds before submitting again."
   );
   return;
 }
-    event.preventDefault();
+    
     const referralCode = generateReferralCode();
     const rider = {
       name: formData.name,
@@ -120,6 +137,8 @@ function Register() {
       points: 10,
       referral_count: 0,
       referral_code: generateReferralCode(),
+
+      follow_up: formData.followUpStatus,
     };
     
     
@@ -136,6 +155,11 @@ function Register() {
     
     console.log(data);
     alert("Registration successful!");
+
+    localStorage.setItem(
+  "lastSubmit",
+  Date.now()
+);
     
     const { data: whatsappData, error: whatsappError } =
     await supabase.functions.invoke(
@@ -200,6 +224,8 @@ function Register() {
       
       referred: "No",
       referralCode: "",
+
+      followUp: "Pending",
     });
   };
   
