@@ -26,7 +26,7 @@ function Register() {
     city: "",
     pincode:"",
     
-    deliveryPlatform: "",
+    deliveryPlatform: [],
     experienceYears: "",
     
     vehicleType: "",
@@ -153,7 +153,7 @@ if (
       phone: formData.phone,
       city: formData.city,
       pincode: formData.pincode,
-      delivery_platform: formData.deliveryPlatform,
+      delivery_platform: formData.deliveryPlatform.join(", "),
       experience_years: formData.experienceYears,
 
       vehicle_type: formData.vehicleType,
@@ -252,7 +252,7 @@ if (
       phone: "",
       city: "",
       pincode: "",
-      deliveryPlatform: "",
+      deliveryPlatform: [],
       experienceYears: "",
       
       vehicleType: "",
@@ -376,21 +376,55 @@ if (
 <br /><br />
       
       <label>{t.deliveryPlatform}</label>
-      <br />
-      <select
-      name="deliveryPlatform"
-      value={formData.deliveryPlatform}
-      onChange={handleChange}
-      >
-        <option value="">Select Platform</option>
-        <option>Swiggy</option>
-        <option>Zomato</option>
-        <option>Blinkit</option>
-        <option>Porter</option>
-        <option>Dunzo</option>
-        <option>{t.other}</option>
-      </select>
-      <br /><br />
+<br />
+
+{[
+  "Swiggy",
+  "Zomato",
+  "Blinkit",
+  "Porter",
+  "Dunzo",
+  "Other",
+].map((platform) => (
+  <label
+    key={platform}
+    style={{
+      display: "block",
+      marginBottom: "5px",
+    }}
+  >
+    <input
+      type="checkbox"
+      checked={
+        formData.deliveryPlatform?.includes(
+          platform
+        ) || false
+      }
+      onChange={(e) => {
+        if (e.target.checked) {
+          setFormData({
+            ...formData,
+            deliveryPlatform: [
+              ...(formData.deliveryPlatform || []),
+              platform,
+            ],
+          });
+        } else {
+          setFormData({
+            ...formData,
+            deliveryPlatform:
+              formData.deliveryPlatform.filter(
+                (p) => p !== platform
+              ),
+          });
+        }
+      }}
+    />
+    {" "}{platform}
+  </label>
+))}
+
+<br />
       
       <input
       type="number"
