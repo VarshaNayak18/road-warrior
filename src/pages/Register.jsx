@@ -39,6 +39,7 @@ const [otpVerified,
     pincode:"",
     
     deliveryPlatform: [],
+    otherPlatform: "",
     experienceYears: "",
     
     vehicleType: "",
@@ -447,6 +448,7 @@ if (
       
       <input
       type="tel"
+      placeholder="Mobile Number"
       name="phone"
       maxLength="10"
       pattern="[0-9]{10}"
@@ -550,6 +552,29 @@ if (
     {" "}{platform}
   </label>
 ))}
+
+{formData.deliveryPlatform?.includes(
+  "Other"
+) && (
+  <>
+    <input
+      type="text"
+      placeholder="Specify Platform"
+      value={
+        formData.otherPlatform
+      }
+      onChange={(e) =>
+        setFormData({
+          ...formData,
+          otherPlatform:
+            e.target.value,
+        })
+      }
+    />
+    <br />
+    <br />
+  </>
+)}
 
 <br />
       
