@@ -303,3 +303,21 @@ tr:hover {
   background: #16a34a;
   color: white;
 }
+
+.export-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin: 15px 0;
+}
+
+.export-buttons button {
+  padding: 8px 14px;
+  border: none;
+  border-radius: 8px;
+  background: #16a34a;
+  color: white;
+  cursor: pointer;
+  font-weight: 600;
+}

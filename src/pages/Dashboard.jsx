@@ -83,6 +83,46 @@ const platformOverlapData =
     })
   );
 
+  const exportLeadTypeCSV = (
+  leadType
+) => {
+  const filtered =
+    riders.filter(
+      (rider) =>
+        rider.lead_type?.includes(
+          leadType
+        )
+    );
+
+  const csv =
+    [
+      Object.keys(
+        filtered[0] || {}
+      ).join(","),
+      ...filtered.map((row) =>
+        Object.values(row).join(",")
+      ),
+    ].join("\n");
+
+  const blob = new Blob(
+    [csv],
+    { type: "text/csv" }
+  );
+
+  const url =
+    URL.createObjectURL(blob);
+
+  const link =
+    document.createElement("a");
+
+  link.href = url;
+
+  link.download =
+    `${leadType}.csv`;
+
+  link.click();
+};
+
   const [selectedPincode, setSelectedPincode] =
   useState("All");
 
@@ -474,6 +514,44 @@ function exportEVLeads() {
   </button>
 
 </div>
+</div>
+
+<div className="toolbar">
+
+  <div className="export-buttons">
+  <button
+    onClick={() =>
+      exportLeadTypeCSV("EV_SALE_LEAD")
+    }
+  >
+    EV Sales
+  </button>
+
+  <button
+    onClick={() =>
+      exportLeadTypeCSV("EV_RENTAL_LEAD")
+    }
+  >
+    Rentals
+  </button>
+
+  <button
+    onClick={() =>
+      exportLeadTypeCSV("RETROFIT_LEAD")
+    }
+  >
+    Retrofit
+  </button>
+
+  <button
+    onClick={() =>
+      exportLeadTypeCSV("PRODUCT_LEAD")
+    }
+  >
+    Product
+  </button>
+</div>
+
 </div>
 
       <h2>🚗 Vehicle Breakdown</h2>
