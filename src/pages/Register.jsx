@@ -152,6 +152,10 @@ const verifyOTP = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
+    if (formData.website) {
+  return;
+}
+
     if (
   !formData.privacyConsent
 ) {
@@ -361,6 +365,7 @@ if (
       referralCode: "",
 
       followUp: "Pending",
+      website: "",
     });
   };
   
@@ -368,6 +373,17 @@ if (
   <div style={{ padding: "20px" }}>
     
     <form onSubmit={handleSubmit}>
+
+       <input
+  type="text"
+  name="website"
+  value={formData.website}
+  onChange={handleChange}
+  style={{
+    display: "none",
+  }}
+/>
+
       <select
       value={language}
       onChange={(e) => setLanguage(e.target.value)}
