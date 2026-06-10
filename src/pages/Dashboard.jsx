@@ -59,6 +59,30 @@ function Dashboard() {
   const [selectedLead, setSelectedLead] =
   useState("All");
 
+  const platformCounts = {};
+
+riders.forEach((rider) => {
+  if (!rider.delivery_platform) return;
+
+  const platforms =
+    rider.delivery_platform
+      .split(",")
+      .map((p) => p.trim());
+
+  const key = platforms.sort().join(" + ");
+
+  platformCounts[key] =
+    (platformCounts[key] || 0) + 1;
+});
+
+const platformOverlapData =
+  Object.entries(platformCounts).map(
+    ([platforms, count]) => ({
+      platforms,
+      count,
+    })
+  );
+
   const [selectedPincode, setSelectedPincode] =
   useState("All");
 
@@ -342,6 +366,18 @@ function exportEVLeads() {
           <h2>Follow-Ups Pending</h2>
           <p>{analytics.followUpPending}</p>
         </div>
+
+        <div className="card">
+  <h2>Multi-Platform Riders</h2>
+  <p>
+    {
+      riders.filter(
+        (r) =>
+          r.delivery_platform?.includes(",")
+      ).length
+    }
+  </p>
+</div>
       </div>
 
       <h2 style={{ marginTop: "30px" }}>
@@ -505,6 +541,27 @@ function exportEVLeads() {
     </BarChart>
   </ResponsiveContainer>
 </div>
+</div>
+
+<div className="leaderboard-card">
+  <h2>📦 Platform Overlap View</h2>
+
+  {platformOverlapData.map(
+    (item, index) => (
+      <div
+        key={index}
+        className="leaderboard-row"
+      >
+        <span className="name">
+          {item.platforms}
+        </span>
+
+        <span className="points">
+          {item.count} riders
+        </span>
+      </div>
+    )
+  )}
 </div>
 
 <div className="leaderboard-card">
