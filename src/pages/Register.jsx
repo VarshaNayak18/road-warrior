@@ -61,6 +61,8 @@ const [otpVerified,
 
     referred: "No",
     referralCode: "",
+
+    privacyConsent: false,
   });
 
   const handleChange = (event) => {
@@ -149,6 +151,16 @@ const verifyOTP = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+
+    if (
+  !formData.privacyConsent
+) {
+  alert(
+    "Please accept privacy consent."
+  );
+
+  return;
+}
 
     if (!otpVerified) {
   alert(
@@ -1116,12 +1128,40 @@ if (
         marginTop: "20px",
       }}
     >
-      <button
+
+      <h3>Privacy Consent</h3>
+
+<label>
+  <input
+    type="checkbox"
+    checked={
+      formData.privacyConsent
+    }
+    onChange={(e) =>
+      setFormData({
+        ...formData,
+        privacyConsent:
+          e.target.checked,
+      })
+    }
+  />
+
+  I agree to share my data with
+  Road Warrior and partner
+  companies for EV, insurance
+  and rider programs.
+</label>
+
+<br />
+<br />
+
+<button
         type="button"
         onClick={() => setCurrentSection(5)}
       >
         ← Previous
       </button>
+      <br />
 
       <button type="submit">
         Register Rider
