@@ -20,6 +20,18 @@ function Register() {
 
   const t = translations[language];
 
+  const [generatedOtp,
+  setGeneratedOtp] =
+  useState("");
+
+const [enteredOtp,
+  setEnteredOtp] =
+  useState("");
+
+const [otpVerified,
+  setOtpVerified] =
+  useState(false);
+
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
@@ -58,6 +70,57 @@ function Register() {
     });
   };
 
+  const sendOTP = async () => {
+  const otp = Math.floor(
+    100000 +
+      Math.random() * 900000
+  ).toString();
+
+  setGeneratedOtp(otp);
+
+  const response =
+    await fetch(
+      "/api/send-otp",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type":
+            "application/json",
+        },
+        body: JSON.stringify({
+          phone:
+            formData.phone,
+          otp,
+        }),
+      }
+    );
+
+  const data =
+    await response.json();
+
+  if (data.success) {
+    alert("OTP Sent");
+  } else {
+    alert(
+      "Failed to send OTP"
+    );
+  }
+};
+
+const verifyOTP = () => {
+  if (
+    enteredOtp === generatedOtp
+  ) {
+    setOtpVerified(true);
+
+    alert(
+      "Phone Verified"
+    );
+  } else {
+    alert("Invalid OTP");
+  }
+};
+
   const handleCheckboxChange = (event) => {
     const { name, value, checked } = event.target;
     setFormData((prev) => ({
@@ -86,6 +149,14 @@ function Register() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+
+    if (!otpVerified) {
+  alert(
+    "Please verify your phone number first"
+  );
+
+  return;
+}
 
       
 const lastSubmissions =
@@ -355,6 +426,34 @@ if (
       onChange={handleChange}
       />
       <br /><br />
+
+      <button
+  type="button"
+  onClick={sendOTP}
+>
+  Send OTP
+</button>
+
+<br />
+<br />
+
+<input
+  type="text"
+  placeholder="Enter OTP"
+  value={enteredOtp}
+  onChange={(e) =>
+    setEnteredOtp(
+      e.target.value
+    )
+  }
+/>
+
+<button
+  type="button"
+  onClick={verifyOTP}
+>
+  Verify OTP
+</button>
       
       <input
       type="text"
