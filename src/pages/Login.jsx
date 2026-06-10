@@ -12,9 +12,9 @@ export default function Login() {
       password === "roadwarrior2026"
     ) {
       localStorage.setItem(
-        "adminToken",
-        "authenticated"
-      );
+  "adminToken",
+  "ROAD_WARRIOR_ADMIN_2026"
+);
 
       navigate("/dashboard");
     } else {

@@ -304,12 +304,8 @@ function exportEVLeads() {
 
   <button
     onClick={() => {
-      localStorage.removeItem(
-        "adminToken"
-      );
-
-      window.location.href =
-        "/login";
+      localStorage.removeItem("adminToken");
+      window.location.href = "/login";
     }}
   >
     Logout
