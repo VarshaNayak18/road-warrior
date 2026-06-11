@@ -13,6 +13,8 @@ import {
 import {
   useGoogleReCaptcha
 } from "react-google-recaptcha-v3";
+import "./Register.css";
+import { cities } from "../data/cities";
 
 function Register() {
 
@@ -143,6 +145,9 @@ const verifyOTP = () => {
 
   const [currentSection, setCurrentSection] =
   useState(1);
+
+  const [otpCooldown, setOtpCooldown] =
+  useState(0);
 
   const leadTypes =
     getLeadTypes(formData);
@@ -374,8 +379,57 @@ if (
       website: "",
     });
   };
+
+  const validateSection1 = () => {
+  if (!formData.name.trim()) {
+    alert("Please enter your full name");
+    return false;
+  }
+
+  if (!formData.phone.trim()) {
+    alert("Please enter mobile number");
+    return false;
+  }
+
+  const phoneRegex = /^[6-9]\d{9}$/;
+
+  if (!phoneRegex.test(formData.phone)) {
+    alert("Please enter a valid mobile number");
+    return false;
+  }
+
+  if (!formData.city.trim()) {
+    alert("Please select a city");
+    return false;
+  }
+
+  if (!formData.pincode.trim()) {
+    alert("Please enter PIN Code");
+    return false;
+  }
+
+  const pincodeRegex = /^\d{6}$/;
+
+  if (!pincodeRegex.test(formData.pincode)) {
+    alert("PIN Code must be exactly 6 digits");
+    return false;
+  }
+
+  if (
+    !formData.deliveryPlatform ||
+    formData.deliveryPlatform.length === 0
+  ) {
+    alert(
+      "Please select at least one delivery platform"
+    );
+    return false;
+  }
+
+  return true;
+};
   
   return (
+    <div className="form-container">
   <div style={{ padding: "20px" }}>
     
     <form onSubmit={handleSubmit}>
@@ -390,14 +444,18 @@ if (
   }}
 />
 
-      <select
-      value={language}
-      onChange={(e) => setLanguage(e.target.value)}
-      >
-        <option value="en">English</option>
-        <option value="hi">हिन्दी</option>
-        <option value="kn">ಕನ್ನಡ</option>
-      </select>
+
+<h3>Select Language</h3>
+     <div className="language-selector">
+  <select
+    value={language}
+    onChange={(e) => setLanguage(e.target.value)}
+  >
+    <option value="en">English</option>
+    <option value="hi">हिन्दी</option>
+    <option value="kn">ಕನ್ನಡ</option>
+  </select>
+</div>
 
       <div
       style={{
@@ -433,14 +491,17 @@ if (
               Step {currentSection} of 6
               </p>
         </div>
+
+        
       
-      <h1>{t.title}</h1>
+      <h2>{t.title}</h2>
 
       {/* SECTION A */}
 
       {currentSection === 1 && (
+        <div className="section-card">
         <>
-        <h2>{t.basicProfile}</h2>
+        <h3>{t.basicProfile}</h3>
 
         <input
         type="text"
@@ -472,32 +533,56 @@ if (
 <br />
 <br />
 
-<input
-  type="text"
-  placeholder="Enter OTP"
-  value={enteredOtp}
-  onChange={(e) =>
-    setEnteredOtp(
-      e.target.value
-    )
-  }
-/>
+<div className="otp-row">
+  <input
+    type="text"
+    placeholder="Enter OTP"
+    value={enteredOtp}
+    onChange={(e) =>
+      setEnteredOtp(e.target.value)
+    }
+  />
 
-<button
-  type="button"
-  onClick={verifyOTP}
->
-  Verify OTP
-</button>
+  <button
+    type="button"
+    onClick={verifyOTP}
+  >
+    Verify OTP
+  </button>
+</div>
+<br/ >
+
+<label>City</label>
       
       <input
-      type="text"
-      name="city"
-      placeholder={t.city}
-      value={formData.city}
-      onChange={handleChange}
-      />
-      <br /><br />
+  type="text"
+  name="city"
+  placeholder="Enter City"
+  value={formData.city}
+  onChange={handleChange}
+  list="cities"
+/>
+
+<datalist id="cities">
+  {cities.map((city) => (
+    <option
+      key={city}
+      value={city}
+    />
+  ))}
+
+  <option value="Other" />
+</datalist>
+
+{formData.city === "Other" && (
+  <input
+    type="text"
+    name="otherCity"
+    placeholder="Enter City"
+    value={formData.otherCity || ""}
+    onChange={handleChange}
+  />
+)}
 
       <input
   type="text"
@@ -508,9 +593,11 @@ if (
   maxLength="6"
 />
 <br /><br />
+
+
       
       <label>{t.deliveryPlatform}</label>
-<br />
+      <div className="checkbox-grid">
 
 {[
   "Swiggy",
@@ -521,12 +608,15 @@ if (
   "Other",
 ].map((platform) => (
   <label
-    key={platform}
-    style={{
-      display: "block",
-      marginBottom: "5px",
-    }}
-  >
+  key={platform}
+  className={
+    formData.deliveryPlatform?.includes(
+      platform
+    )
+      ? "platform-selected"
+      : ""
+  }
+>
     <input
       type="checkbox"
       checked={
@@ -557,6 +647,7 @@ if (
     {" "}{platform}
   </label>
 ))}
+</div>
 
 {formData.deliveryPlatform?.includes(
   "Other"
@@ -593,23 +684,28 @@ if (
 
       <div>
       <button
-      type="button"
-      onClick={() =>
-        setCurrentSection(2)
-      }
-      >
-        Next
-      </button>
+  type="button"
+  onClick={() => {
+    if (validateSection1()) {
+      setCurrentSection(2);
+    }
+  }}
+>
+  Next →
+</button>
       </div>
       </>
+      </div>
     )}
+
 
       
       {/* SECTION B */}
 
       {currentSection === 2 && (
+        <div className="section-card">
         <>
-        <h2>{t.vehicleSection}</h2>
+        <h3>{t.vehicleSection}</h3>
 
         <label>{t.vehicleType}</label>
         <br />
@@ -732,6 +828,7 @@ if (
       </button>
     </div>
     </>
+    </div>
   )}
 
       
@@ -740,10 +837,13 @@ if (
       {/* SECTION C */}
 
       {currentSection === 3 && (
+        <div className="section-card">
         <>
-        <h2>{t.challengesSection}</h2>
+        <h3>{t.challengesSection}</h3>
         
         <h3>{t.topChallenges}</h3>
+
+        <div className="checkbox-grid">
 
       <label>
         <input
@@ -815,10 +915,13 @@ if (
         />
         {t.refuellingTime}
       </label>
+      </div>
       
       {formData.vehicleType === "Electric" && (
         <>
         <h3>{t.evChallenges}</h3>
+
+        <div className="checkbox-grid">
         
         <label>
           <input
@@ -866,12 +969,15 @@ if (
           />
           {t.lowPower}
         </label>
+        </div>
         </>
       )}
+      
       
       {formData.vehicleType === "Petrol" && (
         <>
         <h3>{t.petrolChallenges}</h3>
+        <div className="checkbox-grid">
         
         <label>
           <input
@@ -919,6 +1025,7 @@ if (
           />
           {t.highServiceCost}
         </label>
+        </div>
         </>
       )}
 
@@ -938,15 +1045,17 @@ if (
       </button>
     </div>
   </>
+  </div>
       )}
-      
+
       
       
       {/* SECTION D */}
 
       {currentSection === 4 && (
+        <div className="section-card">
         <>
-        <h2>{t.insuranceSection}</h2>
+        <h3>{t.insuranceSection}</h3>
         
         <label>{t.accidentalInsurance}</label>
       <br />
@@ -1004,14 +1113,16 @@ if (
       </button>
     </div>
   </>
+  </div>
 )}
       
       
       {/* SECTION E */}
 
       {currentSection === 5 && (
+        <div className="section-card">
         <>
-        <h2>{t.evSection}</h2>
+        <h3>{t.evSection}</h3>
         
         <label>{t.evInterest}</label><br />
       <select
@@ -1036,6 +1147,7 @@ if (
       <br /><br />
       
       <h3>{t.switchFactors}</h3>
+      <div className="checkbox-grid">
       
       <label>
         <input
@@ -1095,9 +1207,11 @@ if (
         />
         {t.employerSubsidy}
       </label>
+      </div>
       <br /><br />
       
       <h3>{t.interestedServices}</h3>
+      <div className="checkbox-grid">
       
       <label>
         <input
@@ -1157,8 +1271,10 @@ if (
         />
         {t.none}
       </label>
+      </div>
 
       <h3>Interested Products</h3>
+      <div className="checkbox-grid">
 
 {[
   "Helmet",
@@ -1206,7 +1322,9 @@ if (
     {" "}
     {product}
   </label>
+  
 ))}
+</div>
 
 <br />
 
@@ -1226,13 +1344,16 @@ if (
       </button>
     </div>
   </>
+  </div>
       )}
 
       
       {/* SECTION F */}
 {currentSection === 6 && (
+  <div className="section-card">
   <>
-    <h2>{t.referralSection}</h2>
+  
+    <h3>{t.referralSection}</h3>
 
     <label>{t.referred}</label>
     <br />
@@ -1267,17 +1388,9 @@ if (
       </>
     )}
 
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "space-between",
-        marginTop: "20px",
-      }}
-    >
-
       <h3>Privacy Consent</h3>
 
-<label>
+<label className="consent-label">
   <input
     type="checkbox"
     checked={
@@ -1301,23 +1414,29 @@ if (
 <br />
 <br />
 
-<button
-        type="button"
-        onClick={() => setCurrentSection(5)}
-      >
-        ← Previous
-      </button>
-      <br />
+<div className="button-row">
+  <button
+    type="button"
+    onClick={() =>
+      setCurrentSection(5)
+    }
+  >
+    ← Previous
+  </button>
 
-      <button type="submit">
-        Register Rider
-      </button>
-    </div>
+  <button type="submit">
+    Register Rider
+  </button>
+</div>
+    
   </>
+  </div>
 )}
-      
+
       </form>
       </div> 
+      </div>
   )}; 
+  
 
 export default Register;
