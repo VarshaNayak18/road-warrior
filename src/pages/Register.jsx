@@ -344,6 +344,7 @@ if (
       experienceYears: "",
       
       vehicleType: "",
+      otherVehicleType: "",
       vehicleBrand: "",
       chargingMethod: "",
       weeklyExpense: "",
@@ -619,7 +620,32 @@ if (
         <option value="Diesel">{t.diesel}</option>
         <option value="Electric">{t.electric}</option>
         <option value="Other">{t.other}</option>
+
       </select>
+
+      <br />
+      <br />
+
+      {formData.vehicleType ===
+  "Other" && (
+  <>
+    <input
+      type="text"
+      placeholder="Specify Vehicle Type"
+      value={
+        formData.otherVehicleType
+      }
+      onChange={(e) =>
+        setFormData({
+          ...formData,
+          otherVehicleType:
+            e.target.value,
+        })
+      }
+    />
+    <br />
+  </>
+)}
       <br /><br />
       
       <input
