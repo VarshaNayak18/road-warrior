@@ -363,6 +363,8 @@ if (
       
       switchFactors: [],
       interestedServices: [],
+
+      productInterest: [],
       
       referred: "No",
       referralCode: "",
@@ -1154,6 +1156,56 @@ if (
         />
         {t.none}
       </label>
+
+      <h3>
+  Interested Products
+</h3>
+
+<label>
+  <input
+    type="checkbox"
+    value="Helmet"
+  />
+  Helmet
+</label>
+<br />
+
+<label>
+  <input
+    type="checkbox"
+    value="Mobile Holder"
+  />
+  Mobile Holder
+</label>
+<br />
+
+<label>
+  <input
+    type="checkbox"
+    value="Riding Jacket"
+  />
+  Riding Jacket
+</label>
+<br />
+
+<label>
+  <input
+    type="checkbox"
+    value="Phone Charger"
+  />
+  Phone Charger
+</label>
+<br />
+
+<label>
+  <input
+    type="checkbox"
+    value="GPS Tracker"
+  />
+  GPS Tracker
+</label>
+<br />
+<br />
 
       <div>
       <button
