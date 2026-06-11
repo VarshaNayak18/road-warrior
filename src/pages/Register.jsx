@@ -31,15 +31,17 @@ const [otpVerified, setOtpVerified] = useState(false);
     name: "",
     phone: "",
     city: "",
+    otherCity:"",
     pincode:"",
-    
     deliveryPlatform: [],
     otherPlatform: "",
     experienceYears: "",
     
     vehicleType: "",
+    otherVehicleType: "",
     vehicleBrand: "",
     chargingMethod: "",
+    otherFuelMethod: "",
     weeklyExpense: "",
     maintenanceExpense: "",
 
@@ -60,6 +62,8 @@ const [otpVerified, setOtpVerified] = useState(false);
     referralCode: "",
 
     privacyConsent: false,
+
+    website: "",
   });
 
   const handleChange = (event) => {
@@ -69,18 +73,31 @@ const [otpVerified, setOtpVerified] = useState(false);
     });
   };
   const sendOTP = async () => {
+  const phone = formData.phone.trim();
+
+  // Check if exactly 10 digits
+  if (!/^\d{10}$/.test(phone)) {
+    alert("Please enter a valid 10-digit mobile number");
+    return;
+  }
+
   const generatedOtp = Math.floor(
     100000 + Math.random() * 900000
   ).toString();
 
   setOtp(generatedOtp);
 
-  await supabase
+  const { error } = await supabase
     .from("otp_verifications")
     .upsert({
-      mobile: formData.phone,
+      mobile: phone,
       otp: generatedOtp,
     });
+
+  if (error) {
+    alert("Failed to generate OTP");
+    return;
+  }
 
   alert(`Demo OTP: ${generatedOtp}`);
 };
@@ -231,14 +248,22 @@ if (
     const rider = {
       name: formData.name,
       phone: formData.phone,
-      city: formData.city,
+      phone_verified: otpVerified,
+      city: formData.city === t.other ? formData.otherCity : formData.city,
       pincode: formData.pincode,
-      delivery_platform: formData.deliveryPlatform.join(", "),
+      delivery_platform: formData.deliveryPlatform.includes(t.other)
+    ? [
+        ...formData.deliveryPlatform.filter(
+          (p) => p !== t.other
+        ),
+        formData.otherPlatform,
+      ].join(", ")
+    : formData.deliveryPlatform.join(", "),
       experience_years: formData.experienceYears,
 
-      vehicle_type: formData.vehicleType,
+      vehicle_type: formData.vehicleType == t.other ? formData.otherVehicleType : formData.vehicleType,
       vehicle_brand: formData.vehicleBrand,
-      charging_method: formData.chargingMethod,
+      charging_method: formData.chargingMethod === t.other ? formData.otherFuelMethod : formData.chargingMethod,
       weekly_expense: formData.weeklyExpense,
       maintenance_expense: formData.maintenanceExpense,
 
@@ -254,16 +279,15 @@ if (
       switch_factors: formData.switchFactors,
       interested_services: formData.interestedServices,
       lead_type: leadTypes,
+      product_interest: formData.productInterest,
       
-      referral_code: generateReferralCode(),
+      referral_code: referralCode,
       referred_by: formData.referralCode,
       referred: formData.referred,
+      privacy_consent: formData.privacyConsent,
       
       points: 10,
       referral_count: 0,
-      referral_code: generateReferralCode(),
-
-      follow_up: formData.followUpStatus,
     };
     
     
@@ -315,6 +339,8 @@ if (
       name: "",
       phone: "",
       city: "",
+      otherCity: "",
+      EnterOTP:"",
       pincode: "",
       deliveryPlatform: [],
       experienceYears: "",
@@ -336,18 +362,22 @@ if (
       accidentExpense: "",
       
       evInterest: "",
-      
       switchFactors: [],
       interestedServices: [],
-
       productInterest: [],
       
       referred: "No",
       referralCode: "",
 
+      privacyConsent: false,
+
       followUp: "Pending",
       website: "",
     });
+
+    setOtp("");
+setEnteredOtp("");
+setOtpVerified(false);
   };
 
   const validateSection1 = () => {
@@ -368,7 +398,7 @@ if (
     return false;
   }
 
-  if (!formData.city.trim()) {
+  if (formData.city === t.other && !formData.otherCity.trim()) {
     alert("Please select a city");
     return false;
   }
@@ -386,21 +416,19 @@ if (
   }
 
   if (
-    !formData.deliveryPlatform ||
-    formData.deliveryPlatform.length === 0
-  ) {
-    alert(
-      "Please select at least one delivery platform"
-    );
-    return false;
-  }
+  formData.deliveryPlatform.includes(t.other) &&
+  !formData.otherPlatform.trim()
+) {
+  alert("Please enter delivery platform");
+  return false;
+}
 
   return true;
 };
   
 const validateSection2 = () => {
-  if (!formData.vehicleType) {
-    alert("Please select vehicle type");
+  if (formData.vehicleType === t.other && !formData.otherVehicleType.trim()) {
+    alert("Please enter vehicle type");
     return false;
   }
 
@@ -409,7 +437,7 @@ const validateSection2 = () => {
     return false;
   }
 
-  if (!formData.chargingMethod) {
+  if (formData.chargingMethod === t.other && !formData.otherFuelMethod.trim()) {
     alert(
       "Please select charging/fuel method"
     );
@@ -418,34 +446,30 @@ const validateSection2 = () => {
 
   return true;
 };
-  return (
-    <div className="form-container">
-  <div style={{ padding: "20px" }}>
-    
-    <form onSubmit={handleSubmit}>
-
-       <input
-  type="text"
-  name="website"
-  value={formData.website}
-  onChange={handleChange}
-  style={{
-    display: "none",
-  }}
-/>
-
-
-<h3>Select Language</h3>
-     <div className="language-selector">
-  <select
-    value={language}
-    onChange={(e) => setLanguage(e.target.value)}
-  >
-    <option value="en">English</option>
-    <option value="hi">हिन्दी</option>
-    <option value="kn">ಕನ್ನಡ</option>
-  </select>
-</div>
+  
+return (
+  <div className="form-container">
+    <div style={{ padding: "20px" }}>
+      <form onSubmit={handleSubmit}>
+        <input
+        type="text"
+        name="website"
+        value={formData.website}
+        onChange={handleChange}
+        style={{ display: "none",}}
+        />
+        
+        <h3>Select Language</h3>
+        <div className="language-selector">
+          <select
+          value={language}
+          onChange={(e) => setLanguage(e.target.value)}
+          >
+            <option value="en">English</option>
+            <option value="hi">हिन्दी</option>
+            <option value="kn">ಕನ್ನಡ</option>
+          </select>
+        </div>
 
       <div
       style={{
@@ -521,6 +545,7 @@ const validateSection2 = () => {
       <button
   type="button"
   onClick={sendOTP}
+  disabled={!/^\d{10}$/.test(formData.phone)}
 >
   {t.sendOTP}
 </button>
@@ -644,16 +669,13 @@ const validateSection2 = () => {
 ))}
 </div>
 
-{formData.deliveryPlatform?.includes(
-  "Other"
-) && (
+{formData.deliveryPlatform?.includes("Other") && (
   <>
     <input
       type="text"
+      name="otherPlatform"
       placeholder="Specify Platform"
-      value={
-        formData.otherPlatform
-      }
+      value={formData.otherPlatform}
       onChange={(e) =>
         setFormData({
           ...formData,
@@ -715,11 +737,11 @@ const validateSection2 = () => {
 
       </select>
 
-      {formData.vehicleType ===
-  "Other" && (
+      {formData.vehicleType === "Other" && (
   <>
     <input
       type="text"
+      name="otherVehicleType"
       placeholder={t.specifyVehicleType}
       value={
         formData.otherVehicleType
@@ -759,14 +781,13 @@ const validateSection2 = () => {
       </select>
       <br />
       
-      {formData.chargingMethod === t.other && (
+      {formData.chargingMethod === "Other" && (
   <>
     <input
       type="text"
+      name="otherFuelMethod"
       placeholder={t.specifyFuelOrChargingMethod}
-      value={
-        formData.otherFuelMethod
-      }
+      value={formData.otherFuelMethod}
       onChange={(e) =>
         setFormData({
           ...formData,

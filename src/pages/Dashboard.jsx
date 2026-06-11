@@ -234,8 +234,6 @@ const followUpPending =
       cityBreakdown,
       
       topReferrers,
-
-      followUpPending,
     });
   }
 
