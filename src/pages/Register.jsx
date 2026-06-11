@@ -69,7 +69,6 @@ const [otpVerified, setOtpVerified] = useState(false);
     });
   };
   const sendOTP = async () => {
-     alert("NEW OTP FUNCTION RUNNING");
   const generatedOtp = Math.floor(
     100000 + Math.random() * 900000
   ).toString();
@@ -100,6 +99,11 @@ const verifyOTP = async () => {
 
   if (data.otp === enteredOtp) {
     setOtpVerified(true);
+
+  await supabase
+    .from("otp_verifications")
+    .delete()
+    .eq("mobile", formData.phone);
     alert("OTP Verified");
   } else {
     alert("Invalid OTP");
