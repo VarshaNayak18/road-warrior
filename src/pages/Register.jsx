@@ -347,6 +347,7 @@ if (
       otherVehicleType: "",
       vehicleBrand: "",
       chargingMethod: "",
+      otherFuelMethod: "",
       weeklyExpense: "",
       maintenanceExpense: "",
       
@@ -670,7 +671,30 @@ if (
         <option>Battery Swapping Station</option>
         <option>{t.other}</option>
       </select>
-      <br /><br />
+      <br /> <br />
+      
+      {formData.chargingMethod ===
+  "Other" && (
+  <>
+    <input
+      type="text"
+      placeholder="Specify Fuel/Charging Method"
+      value={
+        formData.otherFuelMethod
+      }
+      onChange={(e) =>
+        setFormData({
+          ...formData,
+          otherFuelMethod:
+            e.target.value,
+        })
+      }
+    />
+    <br />
+    <br />
+  </>
+)}
+<br />
       
       <input
       type="number"
