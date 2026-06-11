@@ -59,6 +59,7 @@ const [otpVerified,
     evInterest: "",
     switchFactors: [],
     interestedServices: [],
+    productInterest: [],
 
     referred: "No",
     referralCode: "",
@@ -1157,54 +1158,56 @@ if (
         {t.none}
       </label>
 
-      <h3>
-  Interested Products
-</h3>
+      <h3>Interested Products</h3>
 
-<label>
-  <input
-    type="checkbox"
-    value="Helmet"
-  />
-  Helmet
-</label>
-<br />
+{[
+  "Helmet",
+  "Mobile Holder",
+  "Riding Jacket",
+  "Phone Charger",
+  "GPS Tracker",
+].map((product) => (
+  <label
+    key={product}
+    style={{
+      display: "block",
+      marginBottom: "5px",
+    }}
+  >
+    <input
+      type="checkbox"
+      checked={
+        formData.productInterest?.includes(
+          product
+        ) || false
+      }
+      onChange={(e) => {
+        if (e.target.checked) {
+          setFormData({
+            ...formData,
+            productInterest: [
+              ...(formData.productInterest || []),
+              product,
+            ],
+          });
+        } else {
+          setFormData({
+            ...formData,
+            productInterest:
+  (
+    formData.productInterest || []
+  ).filter(
+    (p) => p !== product
+  ),
+          });
+        }
+      }}
+    />
+    {" "}
+    {product}
+  </label>
+))}
 
-<label>
-  <input
-    type="checkbox"
-    value="Mobile Holder"
-  />
-  Mobile Holder
-</label>
-<br />
-
-<label>
-  <input
-    type="checkbox"
-    value="Riding Jacket"
-  />
-  Riding Jacket
-</label>
-<br />
-
-<label>
-  <input
-    type="checkbox"
-    value="Phone Charger"
-  />
-  Phone Charger
-</label>
-<br />
-
-<label>
-  <input
-    type="checkbox"
-    value="GPS Tracker"
-  />
-  GPS Tracker
-</label>
-<br />
 <br />
 
       <div>

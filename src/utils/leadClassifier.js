@@ -1,4 +1,6 @@
-export function getLeadTypes(formData) {
+export function getLeadTypes(
+  formData
+) {
   const leads = [];
 
   if (
@@ -24,7 +26,8 @@ export function getLeadTypes(formData) {
   }
 
   if (
-    formData.healthInsurance === "No"
+    formData.healthInsurance ===
+    "No"
   ) {
     leads.push(
       "PERSONAL_INSURANCE_LEAD"
@@ -32,7 +35,8 @@ export function getLeadTypes(formData) {
   }
 
   if (
-    formData.accidentalInsurance === "No"
+    formData.accidentalInsurance ===
+    "No"
   ) {
     leads.push(
       "BIKE_INSURANCE_LEAD"
@@ -40,9 +44,12 @@ export function getLeadTypes(formData) {
   }
 
   if (
-    formData.interestedServices.length > 0
+    formData.productInterest
+      ?.length > 0
   ) {
-    leads.push("PRODUCT_LEAD");
+    leads.push(
+      "PRODUCT_LEAD"
+    );
   }
 
   return leads;
