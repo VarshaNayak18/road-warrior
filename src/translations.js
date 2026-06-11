@@ -1,20 +1,40 @@
 export const translations = {
   en: {
-    title: "Road Warrior Registration",
+
+    interestedProducts: {
+      Helmet: "Helmet",
+      MobileHolder: "Mobile Holder",
+      RidingJacket: "Riding Jacket",
+      PhoneCharger: "Phone Charger",
+      GPSTracker: "GPS Tracker"
+},
+    title: "Road Warrior Rider Survey 🏍️",
+    subtitle: "Help shape the future of mobility for delivery riders across India",
 
     // Section A
     basicProfile: "Section A — Basic Profile",
     fullName: "Full Name",
     phone: "WhatsApp Number",
     city: "City",
+    EnterOTP: "Enter OTP",
+    sendOTP: "Send OTP",
+    verifyOTP: "Verify OTP",
+    pincode: "Enter Pincode",
     deliveryPlatform: "Delivery Platform",
     experienceYears: "Years of Experience",
 
+    next: "Next",
+    previous: "Previous",
+    registerRider: "Register Rider",
+
     // Section B
     vehicleSection: "Section B — Current Vehicle",
+    selectVehicle: "Select Vehicle",
     vehicleType: "Vehicle Type",
+    specifyVehicleType: "Specify Vehicle Type",
     vehicleBrand: "Vehicle Brand & Model",
     chargingMethod: "Fuel / Charging Method",
+    select: "Select",
     weeklyExpense: "Weekly Fuel / Charging Expense",
     maintenanceExpense: "Monthly Maintenance Expense",
 
@@ -23,9 +43,14 @@ export const translations = {
     electric: "Electric Two-Wheeler",
     other: "Other",
 
+    petrolPump: "Petrol Pump",
+    homeCharging: "Home Charging",
+    batterySwappingStation: "Battery Swapping Station",
+    specifyFuelOrChargingMethod: "Specify Fuel/Charging Method",
+
     // Section C
     challengesSection:
-      "Section C — Challenges and Pain Points",
+      "Section C — Challenges Faced",
 
     topChallenges: "Top Challenges",
 
@@ -83,7 +108,7 @@ export const translations = {
       "Health Insurance",
 
     accidentExpense:
-      "Paid Out Of Pocket After Accident?",
+      "Did You Pay Any Expenses Out of Pocket After the Accident?",
 
     yes: "Yes",
     no: "No",
@@ -91,7 +116,7 @@ export const translations = {
 
     // Section E
     evSection:
-      "Section E — Openness To Change",
+      "Section E — Switch to EV",
 
     evInterest:
       "Open To Switching To EV?",
@@ -150,249 +175,325 @@ export const translations = {
 
     register:
       "Register Rider",
+
+    interestedProducts: "Interested Products",
+
+    privacyConsent: "Privacy Consent",
+    statement: "I agree to share my data with Road Warrior and partner companies for EV, insurance and rider programs",
+
   },
 
   hi: {
-    title:
-      "रोड वॉरियर पंजीकरण",
+    deliveryPlatforms: {
+  Swiggy: "स्विगी",
+  Zomato: "जोमैटो",
+  Blinkit: "ब्लिंकिट",
+  Porter: "पोर्टर",
+  Dunzo: "डंज़ो",
+  Other: "अन्य",
+},
 
-    // Section A
-    basicProfile:
-      "भाग A — मूल प्रोफ़ाइल",
+interestedProducts: {
+  Helmet: "हेलमेट",
+  MobileHolder: "मोबाइल होल्डर",
+  RidingJacket: "राइडिंग जैकेट",
+  PhoneCharger: "फोन चार्जर",
+  GPSTracker: "जीपीएस ट्रैकर"
+},
 
-    fullName:
-      "पूरा नाम",
+title: "रोड वॉरियर राइडर सर्वे 🏍️",
+subtitle: "भारत भर के डिलीवरी राइडर्स के लिए गतिशीलता के भविष्य को आकार देने में हमारी मदद करें",
 
-    phone:
-      "व्हाट्सएप नंबर",
+// Section A
+basicProfile: "अनुभाग A — मूल प्रोफ़ाइल",
+fullName: "पूरा नाम",
+phone: "व्हाट्सऐप नंबर",
+city: "शहर",
+EnterOTP: "ओटीपी दर्ज करें",
+sendOTP: "ओटीपी भेजें",
+verifyOTP: "ओटीपी सत्यापित करें",
+pincode: "पिनकोड दर्ज करें",
+deliveryPlatform: "डिलीवरी प्लेटफ़ॉर्म",
+experienceYears: "अनुभव के वर्ष",
 
-    city:
-      "शहर",
+next: "अगला",
+previous: "पिछला",
+registerRider: "राइडर पंजीकरण करें",
 
-    deliveryPlatform:
-      "डिलीवरी प्लेटफ़ॉर्म",
+// Section B
+vehicleSection: "अनुभाग B — वर्तमान वाहन",
+selectVehicle: "वाहन चुनें",
+vehicleType: "वाहन का प्रकार",
+specifyVehicleType: "वाहन का प्रकार बताएं",
+vehicleBrand: "वाहन का ब्रांड और मॉडल",
+chargingMethod: "ईंधन / चार्जिंग का तरीका",
+select: "चुनें",
+weeklyExpense: "साप्ताहिक ईंधन / चार्जिंग खर्च",
+maintenanceExpense: "मासिक रखरखाव खर्च",
 
-    experienceYears:
-      "अनुभव के वर्ष",
+petrol: "पेट्रोल दोपहिया वाहन",
+diesel: "डीज़ल दोपहिया वाहन",
+electric: "इलेक्ट्रिक दोपहिया वाहन",
+other: "अन्य",
 
-    // Section B
-    vehicleSection:
-      "भाग B — वर्तमान वाहन",
+petrolPump: "पेट्रोल पंप",
+homeCharging: "घर पर चार्जिंग",
+batterySwappingStation: "बैटरी स्वैपिंग स्टेशन",
+specifyFuelOrChargingMethod: "ईंधन / चार्जिंग का तरीका बताएं",
 
-    vehicleType:
-      "वाहन का प्रकार",
+// Section C
+challengesSection: "अनुभाग C — सामना की जाने वाली चुनौतियाँ",
 
-    vehicleBrand:
-      "वाहन ब्रांड और मॉडल",
+topChallenges: "मुख्य चुनौतियाँ",
 
-    chargingMethod:
-      "ईंधन / चार्जिंग का तरीका",
+highFuelCost: "ईंधन की ऊँची लागत",
+frequentBreakdown: "बार-बार खराब होना",
+noChargingStation: "पास में चार्जिंग स्टेशन नहीं है",
+rangeAnxiety: "बैटरी रेंज की चिंता",
+repairCosts: "मरम्मत का खर्च",
+refuellingTime: "ईंधन भरने में अधिक समय लगना",
 
-    weeklyExpense:
-      "साप्ताहिक ईंधन / चार्जिंग खर्च",
+evChallenges: "ईवी से जुड़ी विशेष चुनौतियाँ",
 
-    maintenanceExpense:
-      "मासिक रखरखाव खर्च",
+batteryDrain: "बैटरी बहुत जल्दी खत्म हो जाती है",
 
-    petrol:
-      "पेट्रोल दोपहिया",
+swapFar: "बैटरी स्वैपिंग स्टेशन बहुत दूर है",
 
-    diesel:
-      "डीजल दोपहिया",
+longCharging: "घर पर चार्ज होने में बहुत समय लगता है",
 
-    electric:
-      "इलेक्ट्रिक दोपहिया",
+lowPower: "वाहन पर्याप्त शक्तिशाली नहीं है",
 
-    other:
-      "अन्य",
+serviceFar: "सर्विस सेंटर पास में नहीं है",
 
-    // Section C
-    challengesSection:
-      "भाग C — चुनौतियाँ और समस्याएँ",
+petrolChallenges: "पेट्रोल वाहन से जुड़ी चुनौतियाँ",
 
-    topChallenges:
-      "मुख्य चुनौतियाँ",
+fuelPrice: "ईंधन की कीमत बहुत अधिक है",
 
-    highFuelCost:
-      "उच्च ईंधन लागत",
+engineIssues: "इंजन में बार-बार समस्या आती है",
 
-    frequentBreakdown:
-      "बार-बार खराब होना",
+pollutionRisk: "प्रदूषण जुर्माने का जोखिम",
 
-    noChargingStation:
-      "पास में चार्जिंग स्टेशन नहीं",
+highServiceCost: "सर्विसिंग की लागत अधिक है",
 
-    rangeAnxiety:
-      "बैटरी रेंज की चिंता",
+// Section D
+insuranceSection: "अनुभाग D — बीमा",
 
-    repairCosts:
-      "मरम्मत लागत",
+accidentalInsurance: "दुर्घटना बीमा",
 
-    refuellingTime:
-      "ईंधन भरने में अधिक समय",
+healthInsurance: "स्वास्थ्य बीमा",
 
-    evChallenges:
-      "ईवी से जुड़ी चुनौतियाँ",
+accidentExpense: "क्या दुर्घटना के बाद आपने अपनी जेब से कोई खर्च किया था?",
 
-    batteryDrain:
-      "बैटरी जल्दी खत्म हो जाती है",
+yes: "हाँ",
+no: "नहीं",
+notSure: "पक्का नहीं",
 
-    swapFar:
-      "स्वैपिंग स्टेशन बहुत दूर है",
+// Section E
+evSection: "अनुभाग E — ईवी में बदलाव",
 
-    longCharging:
-      "घर पर चार्जिंग में बहुत समय लगता है",
+evInterest: "क्या आप ईवी अपनाने के लिए तैयार हैं?",
 
-    lowPower:
-      "वाहन पर्याप्त शक्तिशाली नहीं है",
+alreadyEV: "पहले से ही ईवी का उपयोग कर रहे हैं",
 
-    serviceFar:
-      "सर्विस सेंटर पास में नहीं है",
+needInfo: "अधिक जानकारी चाहिए",
 
-    petrolChallenges:
-      "पेट्रोल वाहन चुनौतियाँ",
+switchFactors: "आपको ईवी अपनाने के लिए क्या प्रेरित करेगा?",
 
-    fuelPrice:
-      "ईंधन की कीमत बहुत अधिक",
+lowerRental: "कम किराया / रेंटल लागत",
 
-    engineIssues:
-      "बार-बार इंजन समस्या",
+betterRange: "बेहतर बैटरी रेंज",
 
-    pollutionRisk:
-      "प्रदूषण जुर्माने का जोखिम",
+swapNearby: "पास में स्वैपिंग स्टेशन",
 
-    highServiceCost:
-      "उच्च सर्विसिंग लागत",
+incomeGuarantee: "आय की गारंटी",
 
-    // Section D
-    insuranceSection:
-      "भाग D — बीमा",
+employerSubsidy: "नियोक्ता द्वारा सब्सिडी",
 
-    accidentalInsurance:
-      "दुर्घटना बीमा",
+interestedServices: "रुचिकर सेवाएँ",
 
-    healthInsurance:
-      "स्वास्थ्य बीमा",
+evRentalOffer: "ईवी रेंटल ऑफर",
 
-    accidentExpense:
-      "क्या दुर्घटना के बाद स्वयं खर्च किया?",
+insuranceQuote: "बीमा कोटेशन",
 
-    yes:
-      "हाँ",
+retrofitInfo: "रेट्रोफिट संबंधी जानकारी",
 
-    no:
-      "नहीं",
+allAbove: "उपरोक्त सभी",
 
-    notSure:
-      "पता नहीं",
+none: "कोई नहीं",
 
-    // Section E
-    evSection:
-      "भाग E — बदलाव के लिए खुलापन",
+// Section F
+referralSection: "अनुभाग F — रेफ़रल",
 
-    evInterest:
-      "क्या आप EV अपनाने के लिए तैयार हैं?",
+referred: "क्या आपको किसी ने रेफ़र किया था?",
 
-    alreadyEV:
-      "पहले से EV उपयोग कर रहा हूँ",
+referralCode: "रेफ़रल कोड",
 
-    needInfo:
-      "और जानकारी चाहिए",
+register: "राइडर पंजीकरण करें",
 
-    switchFactors:
-      "आपको EV अपनाने के लिए क्या प्रेरित करेगा?",
+interestedProducts: "रुचिकर उत्पाद",
 
-    lowerRental:
-      "कम किराया",
+yes: "हाँ",
+no: "नहीं",
+notSure: "पक्का नहीं",
 
-    betterRange:
-      "बेहतर बैटरी रेंज",
+privacyConsent: "गोपनीयता सहमति",
 
-    swapNearby:
-      "पास में स्वैप स्टेशन",
+statement:
+  "मैं ईवी, बीमा और राइडर कार्यक्रमों के लिए रोड वॉरियर और उसके साझेदारों के साथ अपनी जानकारी साझा करने के लिए सहमत हूँ।",
+},
 
-    incomeGuarantee:
-      "आय की गारंटी",
-
-    employerSubsidy:
-      "नियोक्ता सहायता",
-
-    interestedServices:
-      "रुचिकर सेवाएँ",
-
-    evRentalOffer:
-      "EV किराया ऑफर",
-
-    insuranceQuote:
-      "बीमा कोट",
-
-    retrofitInfo:
-      "रेट्रोफिट जानकारी",
-
-    allAbove:
-      "उपरोक्त सभी",
-
-    none:
-      "कोई नहीं",
-
-    // Section F
-    referralSection:
-      "भाग F — रेफरल",
-
-    referred:
-      "क्या किसी ने आपको रेफर किया?",
-
-    referralCode:
-      "रेफरल कोड",
-
-    register:
-      "राइडर पंजीकृत करें",
-  },
   kn: {
-  title: "ರೋಡ್ ವಾರಿಯರ್ ನೋಂದಣಿ",
+    deliveryPlatforms: {
+  Swiggy: "ಸ್ವಿಗ್ಗಿ",
+  Zomato: "ಝೊಮ್ಯಾಟೋ",
+  Blinkit: "ಬ್ಲಿಂಕಿಟ್",
+  Porter: "ಪೋರ್ಟರ್",
+  Dunzo: "ಡಂಜೋ",
+  Other: "ಇತರೆ",
+},
 
-  basicProfile: "ಭಾಗ A — ಮೂಲ ಮಾಹಿತಿ",
-  fullName: "ಪೂರ್ಣ ಹೆಸರು",
-  phone: "ವಾಟ್ಸಾಪ್ ಸಂಖ್ಯೆ",
-  city: "ನಗರ",
-  deliveryPlatform: "ಡೆಲಿವರಿ ಪ್ಲಾಟ್‌ಫಾರ್ಮ್",
-  experienceYears: "ಅನುಭವದ ವರ್ಷಗಳು",
+interestedProducts: {
+  Helmet: "ಹೆಲ್ಮೆಟ್",
+  MobileHolder: "ಮೊಬೈಲ್ ಹೋಲ್ಡರ್",
+  RidingJacket: "ರೈಡಿಂಗ್ ಜಾಕೆಟ್",
+  PhoneCharger: "ಫೋನ್ ಚಾರ್ಜರ್",
+  GPSTracker: "ಜಿಪಿಎಸ್ ಟ್ರ್ಯಾಕರ್"
+},
 
-  vehicleSection: "ಭಾಗ B — ಪ್ರಸ್ತುತ ವಾಹನ",
-  vehicleType: "ವಾಹನದ ಪ್ರಕಾರ",
-  vehicleBrand: "ವಾಹನ ಬ್ರ್ಯಾಂಡ್ ಮತ್ತು ಮಾದರಿ",
-  chargingMethod: "ಇಂಧನ / ಚಾರ್ಜಿಂಗ್ ವಿಧಾನ",
-  weeklyExpense: "ವಾರದ ಇಂಧನ / ಚಾರ್ಜಿಂಗ್ ವೆಚ್ಚ",
-  maintenanceExpense: "ತಿಂಗಳ ನಿರ್ವಹಣಾ ವೆಚ್ಚ",
+title: "ರೋಡ್ ವಾರಿಯರ್ ರೈಡರ್ ಸಮೀಕ್ಷೆ 🏍️",
+subtitle: "ಭಾರತದಾದ್ಯಂತ ಡೆಲಿವರಿ ರೈಡರ್‌ಗಳಿಗಾಗಿ ಸಂಚಾರದ ಭವಿಷ್ಯವನ್ನು ರೂಪಿಸಲು ಸಹಕರಿಸಿ",
 
-  petrol: "ಪೆಟ್ರೋಲ್ ದ್ವಿಚಕ್ರ ವಾಹನ",
-  diesel: "ಡೀಸೆಲ್ ದ್ವಿಚಕ್ರ ವಾಹನ",
-  electric: "ವಿದ್ಯುತ್ ದ್ವಿಚಕ್ರ ವಾಹನ",
-  other: "ಇತರೆ",
+// Section A
+basicProfile: "ವಿಭಾಗ A — ಮೂಲ ಮಾಹಿತಿ",
+fullName: "ಪೂರ್ಣ ಹೆಸರು",
+phone: "ವಾಟ್ಸ್ಆಪ್ ಸಂಖ್ಯೆ",
+city: "ನಗರ",
+EnterOTP: "ಒಟಿಪಿ ನಮೂದಿಸಿ",
+sendOTP: "ಒಟಿಪಿ ಕಳುಹಿಸಿ",
+verifyOTP: "ಒಟಿಪಿ ಪರಿಶೀಲಿಸಿ",
+pincode: "ಪಿನ್ ಕೋಡ್ ನಮೂದಿಸಿ",
+deliveryPlatform: "ಡೆಲಿವರಿ ಪ್ಲಾಟ್‌ಫಾರ್ಮ್",
+experienceYears: "ಅನುಭವದ ವರ್ಷಗಳು",
 
-  challengesSection:
-    "ಭಾಗ C — ಸವಾಲುಗಳು ಮತ್ತು ಸಮಸ್ಯೆಗಳು",
+next: "ಮುಂದೆ",
+previous: "ಹಿಂದೆ",
+registerRider: "ರೈಡರ್ ನೋಂದಣಿ",
 
-  insuranceSection:
-    "ಭಾಗ D — ವಿಮೆ",
+// Section B
+vehicleSection: "ವಿಭಾಗ B — ಪ್ರಸ್ತುತ ವಾಹನ",
+selectVehicle: "ವಾಹನ ಆಯ್ಕೆಮಾಡಿ",
+vehicleType: "ವಾಹನದ ಪ್ರಕಾರ",
+specifyVehicleType: "ವಾಹನದ ಪ್ರಕಾರವನ್ನು ತಿಳಿಸಿ",
+vehicleBrand: "ವಾಹನದ ಬ್ರಾಂಡ್ ಮತ್ತು ಮಾದರಿ",
+chargingMethod: "ಇಂಧನ / ಚಾರ್ಜಿಂಗ್ ವಿಧಾನ",
+select: "ಆಯ್ಕೆಮಾಡಿ",
+weeklyExpense: "ವಾರದ ಇಂಧನ / ಚಾರ್ಜಿಂಗ್ ವೆಚ್ಚ",
+maintenanceExpense: "ತಿಂಗಳ ನಿರ್ವಹಣಾ ವೆಚ್ಚ",
 
-  evSection:
-    "ಭಾಗ E — ಬದಲಾವಣೆಗೆ ಸಿದ್ಧತೆ",
+petrol: "ಪೆಟ್ರೋಲ್ ದ್ವಿಚಕ್ರ ವಾಹನ",
+diesel: "ಡೀಸೆಲ್ ದ್ವಿಚಕ್ರ ವಾಹನ",
+electric: "ವಿದ್ಯುತ್ ದ್ವಿಚಕ್ರ ವಾಹನ",
+other: "ಇತರೆ",
 
-  referralSection:
-    "ಭಾಗ F — ರೆಫರಲ್",
+petrolPump: "ಪೆಟ್ರೋಲ್ ಬಂಕ್",
+homeCharging: "ಮನೆಯಲ್ಲೇ ಚಾರ್ಜಿಂಗ್",
+batterySwappingStation: "ಬ್ಯಾಟರಿ ಸ್ವಾಪಿಂಗ್ ಕೇಂದ್ರ",
+specifyFuelOrChargingMethod: "ಇಂಧನ / ಚಾರ್ಜಿಂಗ್ ವಿಧಾನವನ್ನು ತಿಳಿಸಿ",
 
-  referred:
-    "ಯಾರಾದರೂ ನಿಮ್ಮನ್ನು ರೆಫರ್ ಮಾಡಿದ್ದಾರೆಯೇ?",
+// Section C
+challengesSection: "ವಿಭಾಗ C — ಎದುರಿಸುತ್ತಿರುವ ಸವಾಲುಗಳು",
 
-  referralCode:
-    "ರೆಫರಲ್ ಕೋಡ್",
+topChallenges: "ಮುಖ್ಯ ಸವಾಲುಗಳು",
 
-  yes: "ಹೌದು",
-  no: "ಇಲ್ಲ",
-  notSure: "ಗೊತ್ತಿಲ್ಲ",
+highFuelCost: "ಇಂಧನ ವೆಚ್ಚ ಹೆಚ್ಚು",
+frequentBreakdown: "ಪದೇ ಪದೇ ದೋಷ ಉಂಟಾಗುವುದು",
+noChargingStation: "ಹತ್ತಿರದಲ್ಲಿ ಚಾರ್ಜಿಂಗ್ ಕೇಂದ್ರ ಇಲ್ಲ",
+rangeAnxiety: "ಬ್ಯಾಟರಿ ವ್ಯಾಪ್ತಿಯ ಬಗ್ಗೆ ಆತಂಕ",
+repairCosts: "ದುರಸ್ತಿ ವೆಚ್ಚ",
+refuellingTime: "ಇಂಧನ ತುಂಬಲು ಹೆಚ್ಚು ಸಮಯ ಬೇಕಾಗುತ್ತದೆ",
 
-  register:
-    "ರೈಡರ್ ನೋಂದಣಿ ಮಾಡಿ",
+evChallenges: "ಇವಿ ಸಂಬಂಧಿತ ವಿಶೇಷ ಸವಾಲುಗಳು",
+
+batteryDrain: "ಬ್ಯಾಟರಿ ಬೇಗ ಖಾಲಿಯಾಗುತ್ತದೆ",
+
+swapFar: "ಸ್ವಾಪಿಂಗ್ ಕೇಂದ್ರ ತುಂಬಾ ದೂರದಲ್ಲಿದೆ",
+
+longCharging: "ಮನೆಯಲ್ಲಿ ಚಾರ್ಜ್ ಮಾಡಲು ಹೆಚ್ಚು ಸಮಯ ಬೇಕಾಗುತ್ತದೆ",
+
+lowPower: "ವಾಹನ ಸಾಕಷ್ಟು ಶಕ್ತಿಯುತವಾಗಿಲ್ಲ",
+
+serviceFar: "ಸೇವಾ ಕೇಂದ್ರ ಹತ್ತಿರದಲ್ಲಿಲ್ಲ",
+
+petrolChallenges: "ಪೆಟ್ರೋಲ್ ವಾಹನ ಸಂಬಂಧಿತ ಸವಾಲುಗಳು",
+
+fuelPrice: "ಇಂಧನ ಬೆಲೆ ತುಂಬಾ ಹೆಚ್ಚು",
+
+engineIssues: "ಎಂಜಿನ್ ಸಮಸ್ಯೆಗಳು ಪದೇ ಪದೇ ಬರುತ್ತವೆ",
+
+pollutionRisk: "ಮಾಲಿನ್ಯ ದಂಡದ ಅಪಾಯ",
+
+highServiceCost: "ಸರ್ವಿಸ್ ವೆಚ್ಚ ಹೆಚ್ಚು",
+
+// Section D
+insuranceSection: "ವಿಭಾಗ D — ವಿಮೆ",
+
+accidentalInsurance: "ಅಪಘಾತ ವಿಮೆ",
+
+healthInsurance: "ಆರೋಗ್ಯ ವಿಮೆ",
+
+accidentExpense: "ಅಪಘಾತದ ನಂತರ ನೀವು ನಿಮ್ಮ ಖರ್ಚಿನಿಂದ ಯಾವುದೇ ಹಣ ಪಾವತಿಸಿದ್ದೀರಾ?",
+
+yes: "ಹೌದು",
+no: "ಇಲ್ಲ",
+notSure: "ಖಚಿತವಿಲ್ಲ",
+
+// Section E
+evSection: "ವಿಭಾಗ E — ಇವಿಗೆ ಬದಲಾವಣೆ",
+
+evInterest: "ನೀವು ಇವಿಗೆ ಬದಲಾಯಿಸಲು ಸಿದ್ಧರಿದ್ದೀರಾ?",
+
+alreadyEV: "ಈಗಾಗಲೇ ಇವಿ ಬಳಸುತ್ತಿದ್ದೇನೆ",
+
+needInfo: "ಹೆಚ್ಚಿನ ಮಾಹಿತಿ ಬೇಕು",
+
+switchFactors: "ನೀವು ಇವಿಗೆ ಬದಲಾಯಿಸಲು ಯಾವುದು ಪ್ರೇರೇಪಿಸುತ್ತದೆ?",
+
+lowerRental: "ಕಡಿಮೆ ಬಾಡಿಗೆ ವೆಚ್ಚ",
+
+betterRange: "ಉತ್ತಮ ಬ್ಯಾಟರಿ ವ್ಯಾಪ್ತಿ",
+
+swapNearby: "ಹತ್ತಿರದಲ್ಲೇ ಸ್ವಾಪಿಂಗ್ ಕೇಂದ್ರ",
+
+incomeGuarantee: "ಆದಾಯ ಖಾತರಿ",
+
+employerSubsidy: "ಉದ್ಯೋಗದಾತರಿಂದ ಸಹಾಯಧನ",
+
+interestedServices: "ಆಸಕ್ತಿಯ ಸೇವೆಗಳು",
+
+evRentalOffer: "ಇವಿ ಬಾಡಿಗೆ ಆಫರ್",
+
+insuranceQuote: "ವಿಮೆ ಉಲ್ಲೇಖ",
+
+retrofitInfo: "ರೆಟ್ರೋಫಿಟ್ ಮಾಹಿತಿ",
+
+allAbove: "ಮೇಲಿನ ಎಲ್ಲವೂ",
+
+none: "ಯಾವುದೂ ಇಲ್ಲ",
+
+// Section F
+referralSection: "ವಿಭಾಗ F — ರೆಫರಲ್",
+
+referred: "ನಿಮ್ಮನ್ನು ಯಾರಾದರೂ ರೆಫರ್ ಮಾಡಿದ್ದಾರೆಯೇ?",
+
+referralCode: "ರೆಫರಲ್ ಕೋಡ್",
+
+register: "ರೈಡರ್ ನೋಂದಣಿ",
+
+interestedProducts: "ಆಸಕ್ತಿಯ ಉತ್ಪನ್ನಗಳು",
+
+privacyConsent: "ಗೌಪ್ಯತಾ ಸಮ್ಮತಿ",
+
+statement:
+  "ಇವಿ, ವಿಮೆ ಮತ್ತು ರೈಡರ್ ಕಾರ್ಯಕ್ರಮಗಳಿಗಾಗಿ ರೋಡ್ ವಾರಿಯರ್ ಮತ್ತು ಅದರ ಪಾಲುದಾರರೊಂದಿಗೆ ನನ್ನ ಮಾಹಿತಿಯನ್ನು ಹಂಚಿಕೊಳ್ಳಲು ನಾನು ಸಮ್ಮತಿಸುತ್ತೇನೆ.",
 },
 };

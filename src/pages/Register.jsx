@@ -22,17 +22,10 @@ function Register() {
 
   const t = translations[language];
 
-  const [generatedOtp,
-  setGeneratedOtp] =
-  useState("");
+  const [otp, setOtp] = useState("");
+const [enteredOtp, setEnteredOtp] = useState("");
+const [otpVerified, setOtpVerified] = useState(false);
 
-const [enteredOtp,
-  setEnteredOtp] =
-  useState("");
-
-const [otpVerified,
-  setOtpVerified] =
-  useState(false);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -75,53 +68,39 @@ const [otpVerified,
       [event.target.name]: event.target.value,
     });
   };
-
   const sendOTP = async () => {
-  const otp = Math.floor(
-    100000 +
-      Math.random() * 900000
+     alert("NEW OTP FUNCTION RUNNING");
+  const generatedOtp = Math.floor(
+    100000 + Math.random() * 900000
   ).toString();
 
-  setGeneratedOtp(otp);
+  setOtp(generatedOtp);
 
-  const response =
-    await fetch(
-      "/api/send-otp",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type":
-            "application/json",
-        },
-        body: JSON.stringify({
-          phone:
-            formData.phone,
-          otp,
-        }),
-      }
-    );
+  await supabase
+    .from("otp_verifications")
+    .upsert({
+      mobile: formData.phone,
+      otp: generatedOtp,
+    });
 
-  const data =
-    await response.json();
-
-  if (data.success) {
-    alert("OTP Sent");
-  } else {
-    alert(
-      "Failed to send OTP"
-    );
-  }
+  alert(`Demo OTP: ${generatedOtp}`);
 };
 
-const verifyOTP = () => {
-  if (
-    enteredOtp === generatedOtp
-  ) {
-    setOtpVerified(true);
+const verifyOTP = async () => {
+  const { data } = await supabase
+    .from("otp_verifications")
+    .select("*")
+    .eq("mobile", formData.phone)
+    .single();
 
-    alert(
-      "Phone Verified"
-    );
+  if (!data) {
+    alert("OTP not found");
+    return;
+  }
+
+  if (data.otp === enteredOtp) {
+    setOtpVerified(true);
+    alert("OTP Verified");
   } else {
     alert("Invalid OTP");
   }
@@ -146,8 +125,7 @@ const verifyOTP = () => {
   const [currentSection, setCurrentSection] =
   useState(1);
 
-  const [otpCooldown, setOtpCooldown] =
-  useState(0);
+  
 
   const leadTypes =
     getLeadTypes(formData);
@@ -159,6 +137,18 @@ const verifyOTP = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
+    if (!otpVerified) {
+  alert("Please verify OTP first");
+  return;
+}
+
+    if (!formData.privacyConsent) {
+  alert(
+    "Please accept the privacy consent before submitting."
+  );
+  return;
+}
+
     if (formData.website) {
   return;
 }
@@ -168,14 +158,6 @@ const verifyOTP = () => {
 ) {
   alert(
     "Please accept privacy consent."
-  );
-
-  return;
-}
-
-    if (!otpVerified) {
-  alert(
-    "Please verify your phone number first"
   );
 
   return;
@@ -304,23 +286,7 @@ if (
   "lastSubmit",
   Date.now()
 );
-    
-    const { data: whatsappData, error: whatsappError } =
-    await supabase.functions.invoke(
-      "send-whatsapp",
-      {
-        body: {
-          phone: formData.phone,
-          name: formData.name,
-          referralCode,
-          language,
-        },
-      }
-    );
-    
-    console.log("WhatsApp Data:", whatsappData);
-    console.log("WhatsApp Error:", whatsappError);
-
+  
     recentSubmissions.push(now);
     
     if (formData.referralCode) {
@@ -428,6 +394,26 @@ if (
   return true;
 };
   
+const validateSection2 = () => {
+  if (!formData.vehicleType) {
+    alert("Please select vehicle type");
+    return false;
+  }
+
+  if (!formData.vehicleBrand) {
+    alert("Please enter vehicle brand");
+    return false;
+  }
+
+  if (!formData.chargingMethod) {
+    alert(
+      "Please select charging/fuel method"
+    );
+    return false;
+  }
+
+  return true;
+};
   return (
     <div className="form-container">
   <div style={{ padding: "20px" }}>
@@ -496,6 +482,11 @@ if (
       
       <h2>{t.title}</h2>
 
+      <p className="subtitle">
+  {t.subtitle}
+</p>
+<br />
+
       {/* SECTION A */}
 
       {currentSection === 1 && (
@@ -514,7 +505,7 @@ if (
       
       <input
       type="tel"
-      placeholder="Mobile Number"
+      placeholder={t.phone}
       name="phone"
       maxLength="10"
       pattern="[0-9]{10}"
@@ -527,7 +518,7 @@ if (
   type="button"
   onClick={sendOTP}
 >
-  Send OTP
+  {t.sendOTP}
 </button>
 
 <br />
@@ -536,7 +527,7 @@ if (
 <div className="otp-row">
   <input
     type="text"
-    placeholder="Enter OTP"
+    placeholder={t.EnterOTP}
     value={enteredOtp}
     onChange={(e) =>
       setEnteredOtp(e.target.value)
@@ -547,17 +538,17 @@ if (
     type="button"
     onClick={verifyOTP}
   >
-    Verify OTP
+    {t.verifyOTP}
   </button>
 </div>
 <br/ >
 
-<label>City</label>
+<h4>{t.city}</h4>
       
       <input
   type="text"
   name="city"
-  placeholder="Enter City"
+  placeholder={t.city}
   value={formData.city}
   onChange={handleChange}
   list="cities"
@@ -566,19 +557,19 @@ if (
 <datalist id="cities">
   {cities.map((city) => (
     <option
-      key={city}
-      value={city}
+      key={city.en}
+      value={city[language]}
     />
   ))}
 
-  <option value="Other" />
+  <option value={t.other} />
 </datalist>
 
-{formData.city === "Other" && (
+{formData.city === t.other && (
   <input
     type="text"
     name="otherCity"
-    placeholder="Enter City"
+    placeholder={t.city}
     value={formData.otherCity || ""}
     onChange={handleChange}
   />
@@ -587,7 +578,7 @@ if (
       <input
   type="text"
   name="pincode"
-  placeholder="PIN Code"
+  placeholder={t.pincode}
   value={formData.pincode}
   onChange={handleChange}
   maxLength="6"
@@ -596,7 +587,7 @@ if (
 
 
       
-      <label>{t.deliveryPlatform}</label>
+      <h4>{t.deliveryPlatform}</h4>
       <div className="checkbox-grid">
 
 {[
@@ -644,7 +635,7 @@ if (
         }
       }}
     />
-    {" "}{platform}
+    {" "}{t.deliveryPlatforms?.[platform] || platform}
   </label>
 ))}
 </div>
@@ -667,8 +658,6 @@ if (
         })
       }
     />
-    <br />
-    <br />
   </>
 )}
 
@@ -691,7 +680,7 @@ if (
     }
   }}
 >
-  Next →
+  {t.next} →
 </button>
       </div>
       </>
@@ -707,15 +696,14 @@ if (
         <>
         <h3>{t.vehicleSection}</h3>
 
-        <label>{t.vehicleType}</label>
-        <br />
-      
+        <h4>{t.vehicleType}</h4>
+
       <select
       name="vehicleType"
       value={formData.vehicleType}
       onChange={handleChange}
       >
-        <option value="">Select Vehicle</option>
+        <option value="">{t.selectVehicle}</option>
         <option value="Petrol">{t.petrol}</option>
         <option value="Diesel">{t.diesel}</option>
         <option value="Electric">{t.electric}</option>
@@ -723,15 +711,12 @@ if (
 
       </select>
 
-      <br />
-      <br />
-
       {formData.vehicleType ===
   "Other" && (
   <>
     <input
       type="text"
-      placeholder="Specify Vehicle Type"
+      placeholder={t.specifyVehicleType}
       value={
         formData.otherVehicleType
       }
@@ -746,7 +731,6 @@ if (
     <br />
   </>
 )}
-      <br /><br />
       
       <input
       type="text"
@@ -755,29 +739,27 @@ if (
       value={formData.vehicleBrand}
       onChange={handleChange}
       />
-      <br /><br />
-      
-      <label>{t.chargingMethod}</label>
       <br />
+      
+      <h4>{t.chargingMethod}</h4>
       <select
       name="chargingMethod"
       value={formData.chargingMethod}
       onChange={handleChange}
       >
-        <option value="">Select</option>
-        <option>Petrol Pump</option>
-        <option>Home Charging</option>
-        <option>Battery Swapping Station</option>
+        <option value="">{t.select}</option>
+        <option>{t.petrolPump}</option>
+        <option>{t.homeCharging}</option>
+        <option>{t.batterySwappingStation}</option>
         <option>{t.other}</option>
       </select>
-      <br /> <br />
+      <br />
       
-      {formData.chargingMethod ===
-  "Other" && (
+      {formData.chargingMethod === t.other && (
   <>
     <input
       type="text"
-      placeholder="Specify Fuel/Charging Method"
+      placeholder={t.specifyFuelOrChargingMethod}
       value={
         formData.otherFuelMethod
       }
@@ -789,7 +771,6 @@ if (
         })
       }
     />
-    <br />
     <br />
   </>
 )}
@@ -812,19 +793,23 @@ if (
       onChange={handleChange}
       />
 
-      <div>
+      <div className="button-row">
       <button
         type="button"
         onClick={() => setCurrentSection(1)}
       >
-        ← Previous
+        ← {t.previous}
       </button>
 
       <button
         type="button"
-        onClick={() => setCurrentSection(3)}
+        onClick={() => {
+  if (validateSection2()) {
+    setCurrentSection(3);
+  }
+}}
       >
-        Next →
+        {t.next} →
       </button>
     </div>
     </>
@@ -841,7 +826,7 @@ if (
         <>
         <h3>{t.challengesSection}</h3>
         
-        <h3>{t.topChallenges}</h3>
+        <h4>{t.topChallenges}</h4>
 
         <div className="checkbox-grid">
 
@@ -849,8 +834,8 @@ if (
         <input
         type="checkbox"
         name="generalChallenges"
-        value="High Fuel Cost"
-        checked={formData.generalChallenges.includes("High Fuel Cost")}
+        value={t.highFuelCost}
+        checked={formData.generalChallenges.includes(t.highFuelCost)}
         onChange={handleCheckboxChange}
         />
         {t.highFuelCost}
@@ -861,8 +846,8 @@ if (
         <input
         type="checkbox"
         name="generalChallenges"
-        value="Frequent Breakdown"
-        checked={formData.generalChallenges.includes("Frequent Breakdown")}
+        value={t.frequentBreakdown}
+        checked={formData.generalChallenges.includes(t.frequentBreakdown)}
         onChange={handleCheckboxChange}
         />
         {t.frequentBreakdown}
@@ -873,8 +858,8 @@ if (
         <input
         type="checkbox"
         name="generalChallenges"
-        value="No Nearby Charging Station"
-        checked={formData.generalChallenges.includes("No Nearby Charging Station")}
+        value={t.noChargingStation}
+        checked={formData.generalChallenges.includes(t.noChargingStation)}
         onChange={handleCheckboxChange}
         />
         {t.noChargingStation}
@@ -885,8 +870,8 @@ if (
         <input
         type="checkbox"
         name="generalChallenges"
-        value="Battery Range Anxiety"
-        checked={formData.generalChallenges.includes("Battery Range Anxiety")}
+        value={t.rangeAnxiety}
+        checked={formData.generalChallenges.includes(t.rangeAnxiety)}
         onChange={handleCheckboxChange}
         />
         {t.rangeAnxiety}
@@ -897,8 +882,8 @@ if (
         <input
         type="checkbox"
         name="generalChallenges"
-        value="Repair Costs"
-        checked={formData.generalChallenges.includes("Repair Costs")}
+        value={t.repairCosts}
+        checked={formData.generalChallenges.includes(t.repairCosts)}
         onChange={handleCheckboxChange}
         />
         {t.repairCosts}
@@ -909,17 +894,17 @@ if (
         <input
         type="checkbox"
         name="generalChallenges"
-        value="Long Refuelling Time"
-        checked={formData.generalChallenges.includes("Long Refuelling Time")}
+        value={t.refuellingTime}
+        checked={formData.generalChallenges.includes(t.refuellingTime)}
         onChange={handleCheckboxChange}
         />
         {t.refuellingTime}
       </label>
       </div>
       
-      {formData.vehicleType === "Electric" && (
+      {formData.vehicleType === t.electric && (
         <>
-        <h3>{t.evChallenges}</h3>
+        <h4>{t.evChallenges}</h4>
 
         <div className="checkbox-grid">
         
@@ -927,8 +912,8 @@ if (
           <input
           type="checkbox"
           name="evChallenges"
-          value="Battery Drains Too Fast"
-          checked={formData.evChallenges.includes("Battery Drains Too Fast")}
+          value={t.batteryDrain}
+          checked={formData.evChallenges.includes(t.batteryDrain)}
           onChange={handleCheckboxChange}
           />
           {t.batteryDrain}
@@ -939,8 +924,8 @@ if (
           <input
           type="checkbox"
           name="evChallenges"
-          value="Swapping Station Too Far"
-          checked={formData.evChallenges.includes("Swapping Station Too Far")}
+          value={t.swapFar}
+          checked={formData.evChallenges.includes(t.swapFar)}
           onChange={handleCheckboxChange}
           />
           {t.swapFar}
@@ -951,8 +936,8 @@ if (
           <input
           type="checkbox"          
           name="evChallenges"
-          value="Long Charging Time At Home"
-          checked={formData.evChallenges.includes("Long Charging Time At Home")}
+          value={t.longCharging}
+          checked={formData.evChallenges.includes(t.longCharging)}
           onChange={handleCheckboxChange}
           />
           {t.longCharging}
@@ -963,8 +948,8 @@ if (
           <input
           type="checkbox"
           name="evChallenges"
-          value="Vehicle Not Powerful Enough"
-          checked={formData.evChallenges.includes("Vehicle Not Powerful Enough")}
+          value={t.lowPower}
+          checked={formData.evChallenges.includes(t.lowPower)}
           onChange={handleCheckboxChange}
           />
           {t.lowPower}
@@ -974,17 +959,17 @@ if (
       )}
       
       
-      {formData.vehicleType === "Petrol" && (
+      {formData.vehicleType === t.petrol && (
         <>
-        <h3>{t.petrolChallenges}</h3>
+        <h4>{t.petrolChallenges}</h4>
         <div className="checkbox-grid">
         
         <label>
           <input
           type="checkbox"
           name="petrolChallenges"
-          value="Fuel Price Too High"
-          checked={formData.petrolChallenges.includes("Fuel Price Too High")}
+          value={t.fuelPrice}
+          checked={formData.petrolChallenges.includes(t.fuelPrice)}
           onChange={handleCheckboxChange}
           />
           {t.fuelPrice}
@@ -995,8 +980,8 @@ if (
           <input
           type="checkbox"
           name="petrolChallenges"
-          value="Frequent Engine Issues"
-          checked={formData.petrolChallenges.includes("Frequent Engine Issues")}
+          value={t.engineIssues}
+          checked={formData.petrolChallenges.includes(t.engineIssues)}
           onChange={handleCheckboxChange}
           />
           {t.engineIssues}
@@ -1007,8 +992,8 @@ if (
           <input
           type="checkbox"
           name="petrolChallenges"
-          value="Pollution Fine Risk"
-          checked={formData.petrolChallenges.includes("Pollution Fine Risk")}
+          value={t.pollutionRisk}
+          checked={formData.petrolChallenges.includes(t.pollutionRisk)}
           onChange={handleCheckboxChange}
           />
           {t.pollutionRisk}
@@ -1019,8 +1004,8 @@ if (
           <input
           type="checkbox"
           name="petrolChallenges"
-          value="High Servicing Cost"
-          checked={formData.petrolChallenges.includes("High Servicing Cost")}
+          value={t.highServiceCost}
+          checked={formData.petrolChallenges.includes(t.highServiceCost)}
           onChange={handleCheckboxChange}
           />
           {t.highServiceCost}
@@ -1029,19 +1014,19 @@ if (
         </>
       )}
 
-      <div>
+      <div className="button-row">
       <button
         type="button"
         onClick={() => setCurrentSection(2)}
       >
-        ← Previous
+        ← {t.previous}
       </button>
 
       <button
         type="button"
         onClick={() => setCurrentSection(4)}
       >
-        Next →
+        {t.next} →
       </button>
     </div>
   </>
@@ -1057,8 +1042,7 @@ if (
         <>
         <h3>{t.insuranceSection}</h3>
         
-        <label>{t.accidentalInsurance}</label>
-      <br />
+        <h4>{t.accidentalInsurance}</h4>
       <select
       name="accidentalInsurance"
       value={formData.accidentalInsurance}
@@ -1071,8 +1055,7 @@ if (
       </select>
       <br /><br />
       
-      <label>{t.healthInsurance}</label>
-      <br />
+      <h4>{t.healthInsurance}</h4>
       <select
       name="healthInsurance"
       value={formData.healthInsurance}
@@ -1085,8 +1068,7 @@ if (
       </select>
       <br /><br />
       
-      <label>{t.accidentExpense}</label>
-      <br />
+      <h4>{t.accidentExpense}</h4>
       <select
       name="accidentExpense"
       value={formData.accidentExpense}
@@ -1097,19 +1079,19 @@ if (
         <option value="No">{t.no}</option>
       </select>
 
-      <div>
+      <div className="button-row">
       <button
         type="button"
         onClick={() => setCurrentSection(3)}
       >
-        ← Previous
+        ← {t.previous}
       </button>
 
       <button
         type="button"
         onClick={() => setCurrentSection(5)}
       >
-        Next →
+        {t.next} →
       </button>
     </div>
   </>
@@ -1124,13 +1106,13 @@ if (
         <>
         <h3>{t.evSection}</h3>
         
-        <label>{t.evInterest}</label><br />
+        <h4>{t.evInterest}</h4>
       <select
       name="evInterest"
       value={formData.evInterest}
       onChange={handleChange}
       >
-        <option value="">Select</option>
+        <option value="">{t.select}</option>
         <option value="Yes">
           {t.yes}
         </option>
@@ -1144,17 +1126,17 @@ if (
           {t.needInfo}
         </option>
       </select>
-      <br /><br />
+      <br />
       
-      <h3>{t.switchFactors}</h3>
+      <h4>{t.switchFactors}</h4>
       <div className="checkbox-grid">
       
       <label>
         <input
         type="checkbox"
         name="switchFactors"
-        value="Lower Rental Cost"
-        checked={formData.switchFactors.includes("Lower Rental Cost")}
+        value={t.lowerRental}
+        checked={formData.switchFactors.includes(t.lowerRental)}
         onChange={handleCheckboxChange}
         />
         {t.lowerRental}
@@ -1165,8 +1147,8 @@ if (
         <input
         type="checkbox"
         name="switchFactors"
-        value="Better Battery Range"
-        checked={formData.switchFactors.includes("Better Battery Range")}
+        value={t.betterRange}
+        checked={formData.switchFactors.includes(t.betterRange)}
         onChange={handleCheckboxChange}
         />
         {t.betterRange}
@@ -1177,8 +1159,8 @@ if (
         <input
         type="checkbox"
         name="switchFactors"
-        value="Swap Stations Nearby"
-        checked={formData.switchFactors.includes("Swap Stations Nearby")}
+        value={t.swapNearby}
+        checked={formData.switchFactors.includes(t.swapNearby)}
         onChange={handleCheckboxChange}
         />
         {t.swapNearby}
@@ -1189,8 +1171,8 @@ if (
         <input
         type="checkbox"
         name="switchFactors"
-        value="Income Guarantee"
-        checked={formData.switchFactors.includes("Income Guarantee")}
+        value={t.incomeGuarantee}
+        checked={formData.switchFactors.includes(t.incomeGuarantee)}
         onChange={handleCheckboxChange}
         />
         {t.incomeGuarantee}
@@ -1201,24 +1183,24 @@ if (
         <input
         type="checkbox"
         name="switchFactors"
-        value="Employer Subsidy"
-        checked={formData.switchFactors.includes("Employer Subsidy")}
+        value={t.employerSubsidy}
+        checked={formData.switchFactors.includes(t.employerSubsidy)}
         onChange={handleCheckboxChange}
         />
         {t.employerSubsidy}
       </label>
       </div>
-      <br /><br />
+      <br />
       
-      <h3>{t.interestedServices}</h3>
+      <h4>{t.interestedServices}</h4>
       <div className="checkbox-grid">
       
       <label>
         <input
         type="checkbox"
         name="interestedServices"
-        value="EV Rental Offer"
-        checked={formData.interestedServices.includes("EV Rental Offer")}
+        value={t.evRentalOffer}
+        checked={formData.interestedServices.includes(t.evRentalOffer)}
         onChange={handleCheckboxChange}
         />
         {t.evRentalOffer}
@@ -1229,8 +1211,8 @@ if (
         <input
         type="checkbox"
         name="interestedServices"
-        value="Insurance Quote"
-        checked={formData.interestedServices.includes("Insurance Quote")}
+        value={t.insuranceQuote}
+        checked={formData.interestedServices.includes(t.insuranceQuote)}
         onChange={handleCheckboxChange}
         />
         {t.insuranceQuote}
@@ -1241,8 +1223,8 @@ if (
         <input
         type="checkbox"
         name="interestedServices"
-        value="Retrofit Information"
-        checked={formData.interestedServices.includes("Retrofit Information")}
+        value={t.retrofitInfo}
+        checked={formData.interestedServices.includes(t.retrofitInfo)}
         onChange={handleCheckboxChange}
         />
         {t.retrofitInfo}
@@ -1253,8 +1235,8 @@ if (
         <input
         type="checkbox"
         name="interestedServices"
-        value="All Of The Above"
-        checked={formData.interestedServices.includes("All Of The Above")}
+        value={t.allAbove}
+        checked={formData.interestedServices.includes(t.allAbove)}
         onChange={handleCheckboxChange}
         />
         {t.allAbove}
@@ -1265,15 +1247,15 @@ if (
         <input
         type="checkbox"
         name="interestedServices"
-        value="None"
-        checked={formData.interestedServices.includes("None")}
+        value={t.none}
+        checked={formData.interestedServices.includes(t.none)}
         onChange={handleCheckboxChange}
         />
         {t.none}
       </label>
       </div>
 
-      <h3>Interested Products</h3>
+      <h4>{t.interestedProducts}</h4>
       <div className="checkbox-grid">
 
 {[
@@ -1328,19 +1310,19 @@ if (
 
 <br />
 
-      <div>
+      <div className="button-row">
       <button
         type="button"
         onClick={() => setCurrentSection(4)}
       >
-        ← Previous
+        ← {t.previous}
       </button>
 
       <button
         type="button"
         onClick={() => setCurrentSection(6)}
       >
-        Next →
+        {t.next}→
       </button>
     </div>
   </>
@@ -1388,7 +1370,7 @@ if (
       </>
     )}
 
-      <h3>Privacy Consent</h3>
+      <h3>{t.privacyConsent}</h3>
 
 <label className="consent-label">
   <input
@@ -1405,10 +1387,7 @@ if (
     }
   />
 
-  I agree to share my data with
-  Road Warrior and partner
-  companies for EV, insurance
-  and rider programs.
+  {t.statement}
 </label>
 
 <br />
@@ -1421,11 +1400,11 @@ if (
       setCurrentSection(5)
     }
   >
-    ← Previous
+    ← {t.previous}
   </button>
 
   <button type="submit">
-    Register Rider
+    {t.registerRider}
   </button>
 </div>
     
