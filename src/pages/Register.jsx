@@ -573,26 +573,29 @@ return (
 <br/ >
 
 <h4>{t.city}</h4>
-      
-      <input
-  type="text"
+
+<select
   name="city"
-  placeholder={t.city}
   value={formData.city}
   onChange={handleChange}
-  list="cities"
-/>
+>
+  <option value="">
+    {t.city}
+  </option>
 
-<datalist id="cities">
   {cities.map((city) => (
     <option
       key={city.en}
       value={city[language]}
-    />
+    >
+      {city[language]}
+    </option>
   ))}
 
-  <option value={t.other} />
-</datalist>
+  <option value={t.other}>
+    {t.other}
+  </option>
+</select>
 
 {formData.city === t.other && (
   <input
