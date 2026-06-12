@@ -605,7 +605,7 @@ return (
     value={formData.otherCity || ""}
     onChange={handleChange}
   />
-)}
+)}s
 
       <input
   type="text"
@@ -734,7 +734,6 @@ return (
       >
         <option value="">{t.selectVehicle}</option>
         <option value="Petrol">{t.petrol}</option>
-        <option value="Diesel">{t.diesel}</option>
         <option value="Electric">{t.electric}</option>
         <option value="Other">{t.other}</option>
 
